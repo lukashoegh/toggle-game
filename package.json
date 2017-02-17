@@ -5,9 +5,11 @@
   "devDependencies": {
     "@types/enzyme": "^2.7.4",
     "@types/react-addons-test-utils": "^0.14.17",
+    "@types/react-test-renderer": "^15.4.2",
     "enzyme": "^2.7.1",
     "react-addons-test-utils": "^15.4.2",
-    "react-scripts-ts": "1.1.6"
+    "react-scripts-ts": "1.1.6",
+    "react-test-renderer": "^15.4.2"
   },
   "dependencies": {
     "@types/jest": "^18.1.1",

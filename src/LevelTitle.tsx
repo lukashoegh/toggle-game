@@ -16,4 +16,4 @@ class LevelTitle extends React.Component<P, null> {
     }
 }
 
-export default LevelTitle
+export default LevelTitle;
