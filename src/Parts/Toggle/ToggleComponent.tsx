@@ -2,9 +2,9 @@ import * as React from 'react';
 import './Toggle.css';
 
 interface P {
-    size?: string;
+    size: string;
 }
-export class Toggle extends React.Component<P, null> {
+export default class ToggleComponent extends React.Component<P, null> {
     render() {
         return (
             <div className={'Toggle Toggle-' + this.props.size}>
@@ -15,11 +15,3 @@ export class Toggle extends React.Component<P, null> {
         );
     }
 }
-
-export const ConfigSpec = {
-    size: ['very-small', 'small', 'medium', 'large', 'very-large'],
-}
-
-export const DefaultConfig = {
-    size: 'small',
-};

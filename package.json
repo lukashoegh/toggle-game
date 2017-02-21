@@ -8,14 +8,20 @@
     "@types/react": "^15.0.10",
     "@types/react-dom": "^0.14.23",
     "immutable": "^3.8.1",
+    "lodash": "^4.17.4",
     "react": "^15.4.2",
     "react-dom": "^15.4.2"
   },
   "devDependencies": {
     "@types/enzyme": "^2.7.4",
+    "@types/lodash": "^4.14.52",
     "@types/react-addons-test-utils": "^0.14.17",
     "@types/react-test-renderer": "^15.4.2",
     "enzyme": "^2.7.1",
+    "eslint": "^3.16.0",
+    "eslint-config-standard": "^6.2.1",
+    "eslint-plugin-promise": "^3.4.2",
+    "eslint-plugin-standard": "^2.0.1",
     "react-addons-test-utils": "^15.4.2",
     "react-scripts-ts": "1.1.6",
     "react-test-renderer": "^15.4.2"

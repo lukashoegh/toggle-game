@@ -1,43 +1,61 @@
-export interface Control {
+import * as React from 'react';
+import Logic from './Logic';
+import * as Immutable from 'immutable';
+
+export interface PartDescription {
     type: string;
-    parent?: string | symbol;
-    name?: string | symbol;
+    name?: string;
+    parent?: string;
+    [other: string]: undefined | string;
 }
 
-export interface Config {
-    size?: string;
+export interface Part {
+    readonly Logic: typeof Logic;
+    readonly Component: typeof React.Component;
+    readonly defaultConfig: Immutable.Map<string, string>;
 }
 
-export type ControlConfig = Control & Config;
+export const topLevel = Symbol();
 
-export get
-
-export interface Visual extends ControlConfig { }
-export interface Logic extends ControlConfig { }
-
-export function isVisual(c: ControlConfig): c is Visual {
-    return (c.type.split('.')[0] === 'Visual');
-}
-export function isLogic(c: ControlConfig): c is Logic {
-    return (c.type.split('.')[0] === 'Logic');
-}
-export function getSubtype(c: ControlConfig): string {
-    return (c.type.split('.')[1]);
+export interface PartState {
+    id: number;
+    type: Part;
+    name?: symbol | string;
+    parent: symbol | string;
+    config: Immutable.Map<string, string>;
 }
 
-export interface Connection {
-    from: string;
-    output: string;
-    to: string;
-    input: string;
+export let partRegister = Immutable.Map<string, Part>();
+export function registerPart(name: string, part: Part): void {
+    partRegister = partRegister.set(name, part);
 }
 
-export type Part = ControlConfig | Connection;
+let nextId: number = 0;
+export function toPartState(partDescription: PartDescription): PartState {
+    // initialize type
+    let typeString = partDescription.type.toLowerCase();
+    let typePart = partRegister.get(typeString);
+    if (typePart === undefined) {
+        throw new Error('The type ' + partDescription.type + ' is unrecognized.');
+    }
+    let res: PartState = {
+        id: nextId,
+        type: typePart,
+        parent: topLevel,
+        config: Immutable.Map<string, string>()
+    };
 
-export function isConnection(part: Part): part is Connection {
-    return (<Connection> part).from !== undefined;
-}
+    // copy parent and name
+    if (partDescription.name !== undefined) {
+        res.name = partDescription.name.toLowerCase();
+    }
+    if (partDescription.parent !== undefined) {
+        res.parent = partDescription.parent.toLowerCase();
+    }
 
-export function isControlConfig(part: Part): part is ControlConfig {
-    return (<ControlConfig> part).type !== undefined;
+    // create config map
+    res.config = typePart.defaultConfig;
+    
+    nextId++;
+    return res;
 }

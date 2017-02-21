@@ -34,7 +34,7 @@
         "no-bitwise": true,
         "no-console": [
             true,
-            "log",
+//          "log",
             "error",
             "debug",
             "info",
@@ -57,7 +57,6 @@
         "one-line": [
             true,
             "check-catch",
-            "check-else",
             "check-open-brace",
             "check-whitespace"
         ],
