@@ -1,13 +1,12 @@
 import * as React from 'react';
+import './Container.css';
 
-class Container extends React.Component<null, null> {
+export default class ContainerComponent extends React.Component<null, null> {
     public render() {
         return (
-            <div>
+            <div className="container">
                 {this.props.children}
             </div>
         );
     }
 }
-
-export default Container;

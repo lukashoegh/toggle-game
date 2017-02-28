@@ -2,116 +2,87 @@ import * as React from 'react';
 import './App.css';
 import Level from './Level';
 import * as Immutable from 'immutable';
-import { Part, partRegister } from './Part';
+import { PartState, toPartState, topLevel } from './Part';
 import LevelTitle from './LevelTitle';
-import { Toggle } from './Parts/Toggle/Toggle';
-import { Container } from './Parts/Container/Container';
 import LevelFooter from './LevelFooter';
+import { Container } from './Parts/Container/Container';
+import { isPartDescription } from './Level';
+
+// Component list:
+import './Parts/Toggle/Toggle';
+import './Parts/Container/Container';
+import Action from './Action';
+import * as _ from 'lodash';
+import Logic from './Logic';
 
 interface P {
   level: Level;
 }
-type VisualTree = Immutable.Map<string | symbol, Immutable.List<Part>>;
 interface S {
-  visualTree: VisualTree;
+  partStates: Immutable.List<PartState>;
 }
-
 class App extends React.Component<P, S> {
-  /*
-    private parentNames = Immutable.List<string | symbol>();
-  
-    constructor(props: P) {
-      super(props);
-  
-      let visualTree = this.initializeVisualTree();
-      this.parentNames.push(topLevel);
-      this.props.level.parts.map(this.InputPart);
-  
-      for (let inputPart of this.props.level.parts) {
-  
-  
-  
-  
-  
-        if (isControlConfig(part)) {
-          if (isVisual(part)) {
-            let parent: string | symbol = this.getParent(part);
-            let children = visualTree.get(parent);
-            children = children.push(part);
-            visualTree = visualTree.set(parent, children);
-          }
-        }
-      }
-  
-      this.state = {
-        visualTree: visualTree
-      };
-    }
-  
-    public render() {
-      let component = this.renderVisual({
-        type: 'Visual.Container',
-        name: this.topLevel
-      });
-      return (
-        <div className="level">
-          <LevelTitle title={this.props.level.title} author={this.props.level.author} />
-          {component}
-          <LevelFooter />
-        </div>
-      );
-    }
-  
-    private initializeVisualTree(): VisualTree {
-      let empty = Immutable.Map<string | symbol, Immutable.List<Part>>();
-      return empty.set(topLevel, Immutable.List<Part>());
-    }
-  
-    private renderVisual(visual: Visual): JSX.Element {
-      let visualType = getSubtype(visual);
-      switch (visualType) {
-        case 'Container':
-          let children: Immutable.List<JSX.Element>;
-          if (visual.name !== undefined) {
-            let childVisuals = this.state.visualTree.get(visual.name);
-            children = childVisuals.map<JSX.Element>(this.renderVisual).toList();
-          } else {
-            children = Immutable.List<JSX.Element>();
-          }
-          return (
-            <Container>
-              {children}
-            </Container>
-          );
-        case 'Toggle':
-          let config = Object.assign(Toggle.DefaultConfig, visual);
-          return 
-        default:
-          throw new Error('Part with unknown type: ' + visual.type);
-      }
-    }
-  
-    private getParent(part: ControlConfig): string | symbol {
-      if (part.parent === undefined) {
-        return this.topLevel;
-      } else {
-        if (this.parentNames.contains(part.parent)) {
-          return part.parent;
-        } else {
-          throw new Error('A control referenced an invalid parent name: ' + (part.parent as string));
-        }
-      }
-    }
-  */
-  render() {
+
+  private logics: Immutable.Map<number, Logic>;
+
+  constructor(props: P) {
+    super(props);
+    this.initializeState();
+    this.initializeLogics();
+  }
+
+  public render() {
     return (
       <div className="level">
         <LevelTitle title={this.props.level.title} author={this.props.level.author} />
-        <Container.Component />
-        <Toggle.Component />
+        <Container.Component>
+          {this.getChildren(topLevel)}
+        </Container.Component>
         <LevelFooter />
       </div>
     );
+  }
+
+  public receiveAction(action: Action): void {
+    this.logics.get(action.partId)
+  }
+
+  private initializeState() {
+    this.state = { partStates: Immutable.List<PartState>() };
+    for (let part of this.props.level.parts) {
+      if (isPartDescription(part)) {
+        let partState = toPartState(part);
+        this.state = { partStates: this.state.partStates.push(partState) };
+      }
+    }
+  }
+
+  private initializeLogics() {
+
+  }
+
+  private getChildren(parent: string | symbol): Immutable.Iterable<number, JSX.Element> {
+    return this.state.partStates.filter(
+      (partState: PartState) => (partState.parent === parent)
+    ).map(
+      (partState: PartState) => this.getComponent(partState)
+      );
+  }
+
+  private getComponent(partState: PartState): JSX.Element {
+    let PartComponent = partState.type.Component;
+    return (partState.type.canHaveChildren && partState.name !== undefined) ?
+      <PartComponent key={partState.id} {...this.configAndDefaultProps(partState)}>
+        {this.getChildren(partState.name)}
+      </PartComponent> :
+      <PartComponent key={partState.id} {...this.configAndDefaultProps(partState)} />;
+  }
+
+  private configAndDefaultProps(partState: PartState): Object {
+    let res = partState.config.toObject();
+    _.set(res, 'id', '' + partState.id);
+    _.set(res, 'receiveAction', this.receiveAction);
+    return res;
   }
 }
 

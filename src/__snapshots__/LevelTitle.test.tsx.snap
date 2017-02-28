@@ -3,9 +3,9 @@ exports[`test renders correctly 1`] = `
   <h1>
     Test Title
   </h1>
-  <p>
+  <div>
     by 
     Firstname McSecondname
-  </p>
+  </div>
 </div>
 `;

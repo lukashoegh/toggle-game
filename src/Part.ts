@@ -1,18 +1,52 @@
 import * as React from 'react';
 import Logic from './Logic';
 import * as Immutable from 'immutable';
+import * as _ from 'lodash';
+import Action from './Action';
 
 export interface PartDescription {
     type: string;
     name?: string;
     parent?: string;
-    [other: string]: undefined | string;
+    [other: string]: undefined | string | number;
+}
+
+// special fields
+export const fullTextField = Symbol();
+
+export interface DefaultProps {
+    id: number;
+    receiveAction: (action: Action) => void;
 }
 
 export interface Part {
-    readonly Logic: typeof Logic;
+    readonly Logic: () => Logic;
     readonly Component: typeof React.Component;
+    // () => React.Component<DefaultProps, null>;
+    readonly specification: Specification;
     readonly defaultConfig: Immutable.Map<string, string>;
+    readonly canHaveChildren: boolean;
+}
+
+function isStringSet(s: Immutable.Set<string> | symbol): s is Immutable.Set<string> {
+    return ((<Immutable.Set<string>> s).contains !== undefined);
+}
+
+export type Specification = Immutable.Map<string, Immutable.Set<string> | symbol>;
+
+export function specificationFromObject(specObject: Object): Specification {
+    let res = Immutable.Map<string, Immutable.Set<string> | symbol>();
+    _.each(specObject, (values: Array<number | string> | symbol, key: string) => {
+        if (values === fullTextField) {
+            res = res.set(key, fullTextField);
+        }
+        else if (values instanceof Array) {
+            let valuesAsStrings = _.map(values, (s) => '' + s);
+            res = res.set(key, Immutable.Set(valuesAsStrings));
+        }
+    });
+
+    return res;
 }
 
 export const topLevel = Symbol();
@@ -30,10 +64,10 @@ export function registerPart(name: string, part: Part): void {
     partRegister = partRegister.set(name, part);
 }
 
-let nextId: number = 0;
+let nextId: number = 1;
 export function toPartState(partDescription: PartDescription): PartState {
     // initialize type
-    let typeString = partDescription.type.toLowerCase();
+    let typeString = partDescription.type;
     let typePart = partRegister.get(typeString);
     if (typePart === undefined) {
         throw new Error('The type ' + partDescription.type + ' is unrecognized.');
@@ -45,17 +79,28 @@ export function toPartState(partDescription: PartDescription): PartState {
         config: Immutable.Map<string, string>()
     };
 
-    // copy parent and name
-    if (partDescription.name !== undefined) {
-        res.name = partDescription.name.toLowerCase();
-    }
-    if (partDescription.parent !== undefined) {
-        res.parent = partDescription.parent.toLowerCase();
-    }
+    // set up name and parent, and remove those properties, so we can use the remaining as config
+    res.name = partDescription.name;
+    res.parent = (partDescription.parent !== undefined) ? partDescription.parent : topLevel;
 
-    // create config map
+    // load remaining fields into config list
     res.config = typePart.defaultConfig;
-    
+    let configDescription = Immutable.Map<string, string | number>(_.omit(partDescription, ['name', 'parent', 'type']));
+    configDescription.forEach((value: string | number, key: string) => {
+        value = '' + value;
+        if (!typePart.specification.has(key)) {
+            throw new Error('The property ' + key + ' is not valid for type ' + typeString + '.');
+        }
+        const field = typePart.specification.get(key);
+        if (field === fullTextField || (isStringSet(field) && field.contains(value))) {
+            res.config = res.config.set(key, value);
+        }
+        else {
+            throw new Error('The property ' + key + ' can not have the value ' + value + ' in type '
+                + typeString + '.');
+        }
+    });
+
     nextId++;
     return res;
 }

@@ -10,7 +10,7 @@ class LevelTitle extends React.Component<P, null> {
         return (
             <div>
                 <h1>{this.props.title}</h1>
-                <p>by {this.props.author}</p>
+                <div>by {this.props.author}</div>
             </div>
         );
     }

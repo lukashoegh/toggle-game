@@ -1,10 +1,14 @@
-import { Part, registerPart } from '../../Part';
-import ToggleComponent from '../Toggle/ToggleComponent';
+import { Part, registerPart, specificationFromObject } from '../../Part';
 import ContainerLogic from './ContainerLogic';
+import ContainerComponent from './ContainerComponent';
+import * as Immutable from 'immutable';
 
-export let Container: Part = {
+export const Container: Part = {
     Logic: ContainerLogic,
-    Component: ToggleComponent
-}
+    Component: ContainerComponent,
+    specification: specificationFromObject({}),
+    defaultConfig: Immutable.Map<string, string>(),
+    canHaveChildren: true
+};
 
 registerPart('container', Container);
