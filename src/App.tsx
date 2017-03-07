@@ -43,8 +43,8 @@ class App extends React.Component<P, S> {
     );
   }
 
-  public receiveAction(action: Action): void {
-    this.logics.get(action.partId);
+  public receiveAction(partId: number, action: Action): void {
+    this.logics.get(partId);
   }
 
   private initializeState() {
@@ -60,7 +60,7 @@ class App extends React.Component<P, S> {
   private getPartStateByName(name: string): PartState {
     return this.state.partStates.find(
       (partState: PartState) => (partState.name === name)
-    ); 
+    );
   }
 
   private initializeLogics() {
@@ -110,8 +110,8 @@ class App extends React.Component<P, S> {
 
   private configAndDefaultProps(partState: PartState): Object {
     let res = partState.config.toObject();
-    _.set(res, 'id', '' + partState.id);
-    _.set(res, 'receiveAction', this.receiveAction);
+    _.set(res, 'receiveAction', (action: Action) => this.receiveAction(partState.id, action));
+    _.set(res, 'id', partState.id);
     return res;
   }
 }

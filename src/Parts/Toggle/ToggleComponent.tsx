@@ -2,11 +2,13 @@ import * as React from 'react';
 import './Toggle.css';
 import Action from '../../Action';
 import { DefaultProps } from '../../Part';
+import { USER_INPUT } from '../../Action';
 
 interface P extends DefaultProps {
     size: string;
     state: string;
     label: string;
+    receiveAction: (action: Action) => void;
 }
 
 export default class ToggleComponent extends React.Component<P, null> {
@@ -51,8 +53,7 @@ export default class ToggleComponent extends React.Component<P, null> {
     }
 
     private handleClick<T>(e: T): void {
-        let state = (this.props.state === 'on') ? 'off' : 'on';
-        let action: Action = { partId: this.props.id, newState: { state: state } };
+        let action: Action = { type: USER_INPUT };
         this.props.receiveAction(action);
     }
 }

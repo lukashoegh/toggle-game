@@ -1,5 +1,8 @@
+import * as Immutable from 'immutable';
 interface Action {
-    partId: number;
-    newState: Object;
+    type: symbol;
+    payload?: Immutable.Map<string, string>;
 }
 export default Action;
+
+export const USER_INPUT = Symbol();
