@@ -20,9 +20,11 @@ export interface DefaultProps {
 }
 
 export interface Part {
-    readonly Logic: () => Logic;
+    readonly Logic: (
+        getConfig: (key: string) => string,
+        setConfig: (key: string, value: string) => void,
+    ) => Logic;
     readonly Component: typeof React.Component;
-    // () => React.Component<DefaultProps, null>;
     readonly specification: Specification;
     readonly defaultConfig: Immutable.Map<string, string>;
     readonly canHaveChildren: boolean;

@@ -4,13 +4,14 @@ import { shallow, mount } from 'enzyme';
 import Level from './Level';
 import LevelTitle from './LevelTitle';
 import LevelFooter from './LevelFooter';
-import { Toggle } from './Parts/Toggle/Toggle';
-import { Container } from './Parts/Container/Container';
+import Toggle from './Parts/Toggle/Toggle';
+import Container from './Parts/Container/Container';
 import EmptyLevel from './EmptyLevel';
+import * as sinon from 'sinon';
 
 let level: Level;
 
-describe('<App />', () => {
+describe('<App /> Rendering', () => {
 
   beforeEach(() => {
     level = new EmptyLevel();
@@ -69,18 +70,52 @@ describe('<App />', () => {
     expect(top.children().first().children()).toHaveLength(2);
   });
   it('Passes appropriate props to children', () => {
-    level.parts.push({ type: 'toggle', size: '10'});
+    level.parts.push({ type: 'toggle', size: '10' });
     const wrapper = shallow(<App level={level} />);
     expect(wrapper.find(Toggle.Component).first().prop('size')).toEqual('10');
   });
   it('Passes the IDs to children as props', () => {
-    level.parts.push({ type: 'toggle', size: '10'});
+    level.parts.push({ type: 'toggle', size: '10' });
     const wrapper = shallow(<App level={level} />);
     expect(wrapper.find(Toggle.Component).first().prop('id')).toBeDefined();
   });
   it('Passes a receiveAction callback as prop', () => {
-    level.parts.push({ type: 'toggle', size: '10'});
+    level.parts.push({ type: 'toggle', size: '10' });
     const wrapper = shallow(<App level={level} />);
     expect(wrapper.find(Toggle.Component).first().prop('receiveAction')).toBeDefined();
+  });
+});
+
+describe('<App /> Logics', () => {
+  let spy: sinon.SinonSpy;
+
+  beforeEach(() => {
+    level = new EmptyLevel();
+    spy = sinon.spy(Toggle, 'Logic');
+  });
+  afterEach(() => {
+    spy.restore();
+  });
+  it('Creates a toggle logic', () => {
+    level.parts.push({ type: 'toggle' });
+    shallow(<App level={level} />);
+    expect(spy.called).toBeTruthy();
+  });
+  it('Creates a logic for each part', () => {
+    level.parts.push({ type: 'toggle' }, { type: 'toggle' }, { type: 'toggle' });
+    shallow(<App level={level} />);
+    expect(spy.calledThrice).toBeTruthy();
+  });
+  it('A logic can read its state by doing getConfig calls', () => {
+    level.parts.push({ type: 'toggle', state: 'on' }, { type: 'toggle' });
+    shallow(<App level={level} />);
+    expect(spy.firstCall.args[0]('state')).toEqual('on');
+    expect(spy.secondCall.args[0]('state')).toEqual('off');
+  });
+  it('A logic can modify its component by doing setConfig calls', () => {
+    level.parts.push({ type: 'toggle'});
+    const wrapper = shallow(<App level={level} />);
+    spy.firstCall.args[1]('state', 'on');
+    expect(wrapper.find(Toggle.Component).first().prop('state')).toEqual('on');
   });
 });

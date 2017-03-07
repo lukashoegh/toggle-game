@@ -4,7 +4,7 @@ import ToggleLogic from './ToggleLogic';
 import * as Immutable from 'immutable';
 import * as _ from 'lodash';
 
-export const Toggle: Part = {
+const Toggle: Part = {
     Logic: () => new ToggleLogic(),
     Component: ToggleComponent,
     specification: specificationFromObject({
@@ -19,5 +19,6 @@ export const Toggle: Part = {
     ]),
     canHaveChildren: false
 };
+export default Toggle;
 
 registerPart('toggle', Toggle);

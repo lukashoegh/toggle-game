@@ -5,21 +5,21 @@ import * as Immutable from 'immutable';
 import { PartState, toPartState, topLevel } from './Part';
 import LevelTitle from './LevelTitle';
 import LevelFooter from './LevelFooter';
-import { Container } from './Parts/Container/Container';
+import Container from './Parts/Container/Container';
 import { isPartDescription } from './Level';
+import Action from './Action';
+import * as _ from 'lodash';
+import Logic from './Logic';
 
 // Component list:
 import './Parts/Toggle/Toggle';
 import './Parts/Container/Container';
-import Action from './Action';
-import * as _ from 'lodash';
-import Logic from './Logic';
 
 interface P {
   level: Level;
 }
 interface S {
-  partStates: Immutable.List<PartState>;
+  partStates: Immutable.Map<number, PartState>;
 }
 class App extends React.Component<P, S> {
 
@@ -44,27 +44,57 @@ class App extends React.Component<P, S> {
   }
 
   public receiveAction(action: Action): void {
-    this.logics.get(action.partId)
+    this.logics.get(action.partId);
   }
 
   private initializeState() {
-    this.state = { partStates: Immutable.List<PartState>() };
+    this.state = { partStates: Immutable.Map<number, PartState>() };
     for (let part of this.props.level.parts) {
       if (isPartDescription(part)) {
         let partState = toPartState(part);
-        this.state = { partStates: this.state.partStates.push(partState) };
+        this.state = { partStates: this.state.partStates.set(partState.id, partState) };
       }
     }
   }
 
-  private initializeLogics() {
+  private getPartStateByName(name: string): PartState {
+    return this.state.partStates.find(
+      (partState: PartState) => (partState.name === name)
+    ); 
+  }
 
+  private initializeLogics() {
+    this.logics = Immutable.Map<number, Logic>();
+    this.state.partStates.forEach((partState: PartState) => {
+      let logic = partState.type.Logic(
+        (key: string) => {
+          return this.getConfig(partState.id, key);
+        },
+        (key: string, value: string) => {
+          this.setConfig(partState.id, key, value);
+        }
+      );
+      this.logics = this.logics.set(partState.id, logic);
+    });
+  }
+
+  private getConfig(partId: number, key: string): string {
+    let partState = this.state.partStates.get(partId);
+    return partState.config.get(key);
+  }
+
+  private setConfig(partId: number, key: string, value: string): void {
+    this.setState((prevState: S) => {
+      let partState = prevState.partStates.get(partId);
+      partState.config = partState.config.set(key, value);
+      return prevState.partStates.set(partId, partState);
+    });
   }
 
   private getChildren(parent: string | symbol): Immutable.Iterable<number, JSX.Element> {
     return this.state.partStates.filter(
       (partState: PartState) => (partState.parent === parent)
-    ).map(
+    ).toList().map(
       (partState: PartState) => this.getComponent(partState)
       );
   }

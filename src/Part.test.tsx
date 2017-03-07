@@ -1,6 +1,6 @@
 import { PartState, toPartState, PartDescription, topLevel,
     specificationFromObject, registerPart, partRegister } from './Part';
-import { Toggle } from './Parts/Toggle/Toggle';
+import Toggle from './Parts/Toggle/Toggle';
 import * as _ from 'lodash';
 import * as Immutable from 'immutable';
 
