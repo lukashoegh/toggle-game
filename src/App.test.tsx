@@ -74,11 +74,6 @@ describe('<App /> Rendering', () => {
     const wrapper = shallow(<App level={level} />);
     expect(wrapper.find(Toggle.Component).first().prop('size')).toEqual('10');
   });
-  it('Passes the IDs to children as props', () => {
-    level.parts.push({ type: 'toggle', size: '10' });
-    const wrapper = shallow(<App level={level} />);
-    expect(wrapper.find(Toggle.Component).first().prop('id')).toBeDefined();
-  });
   it('Passes a receiveAction callback as prop', () => {
     level.parts.push({ type: 'toggle', size: '10' });
     const wrapper = shallow(<App level={level} />);
@@ -123,13 +118,13 @@ describe('<App /> Logics', () => {
     expect(wrapper.find(Toggle.Component).first().prop('state')).toEqual('on');
   });
   it('Clicking a toggle triggers the corresponding logic', () => {
-    let triggerSpy = sinon.spy();
+    let inputSpy = sinon.spy();
     stub = sinon.stub(Toggle, 'Logic', () => ({
-      trigger: triggerSpy
+      input: inputSpy
     }));
     level.parts.push({ type: 'toggle' });
     const wrapper = mount(<App level={level} />);
-    wrapper.find(Toggle.Component).first().simulate('click');
-    expect(triggerSpy.called).toBeTruthy();
+    wrapper.find('.Toggle-wrapper').first().simulate('click');
+    expect(inputSpy.called).toBeTruthy();
   });
 });

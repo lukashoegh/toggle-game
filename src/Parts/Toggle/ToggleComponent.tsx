@@ -2,7 +2,7 @@ import * as React from 'react';
 import './Toggle.css';
 import Action from '../../Action';
 import { DefaultProps } from '../../Part';
-import { USER_INPUT } from '../../Action';
+import { USER_INPUT, emptyPayload } from '../../Action';
 
 interface P extends DefaultProps {
     size: string;
@@ -52,7 +52,10 @@ export default class ToggleComponent extends React.Component<P, null> {
     }
 
     private handleClick<T>(e: T): void {
-        let action: Action = { type: USER_INPUT };
+        let action: Action = { 
+            type: USER_INPUT,
+            payload: emptyPayload
+        };
         this.props.receiveAction(action);
     }
 }

@@ -2,8 +2,8 @@ import * as React from 'react';
 import Logic from './Logic';
 import * as Immutable from 'immutable';
 import * as _ from 'lodash';
-import Action from './Action';
 import { Connection } from './Connection';
+import Action from './Action';
 
 export interface PartDescription {
     type: string;

@@ -10,11 +10,12 @@ import { isPartDescription } from './Level';
 import Action from './Action';
 import * as _ from 'lodash';
 import Logic from './Logic';
+import { Connection } from './Connection';
+import { CONNECTION_INPUT } from './Action';
 
 // Component list:
 import './Parts/Toggle/Toggle';
 import './Parts/Container/Container';
-import { Connection } from './Connection';
 
 interface P {
   level: Level;
@@ -68,7 +69,16 @@ class App extends React.Component<P, S> {
   }
 
   private triggerConnection(connection: Connection, payload: string): void {
-    
+    let id = this.getPartStateByName(connection.to).id;
+    let action: Action = {
+      type: CONNECTION_INPUT,
+      payload: Immutable.Map<string, string>({
+        partId: id,
+        input: connection.input,
+        value: payload,
+      })
+    };
+    this.receiveAction(action);
   }
 
   private initializeState() {
@@ -81,13 +91,11 @@ class App extends React.Component<P, S> {
     }
   }
 
-  /*
   private getPartStateByName(name: string): PartState {
     return this.state.partStates.find(
       (partState: PartState) => (partState.name === name)
     );
   }
-  */
 
   private initializeLogics() {
     this.logics = Immutable.Map<number, Logic>();
@@ -111,7 +119,7 @@ class App extends React.Component<P, S> {
   }
 
   private processActionQueue() {
-    this.processingActionQueue = this.actionQueue.isEmpty();
+    this.processingActionQueue = !this.actionQueue.isEmpty();
     if (this.processingActionQueue) {
       let last = this.actionQueue.last();
       this.processAction(last);
@@ -121,11 +129,9 @@ class App extends React.Component<P, S> {
   }
 
   private processAction(action: Action) {
-    if (action.payload !== undefined) {
-      let id = action.payload.get('partId');
-      let logic = this.logics.get(parseInt(id, 10));
-      logic.input(action);
-    }
+    let id = action.payload.get('partId');
+    let logic = this.logics.get(parseInt(id, 10));
+    logic.input(action);
   }
 
   private getChildren(parent: string | symbol): Immutable.Iterable<number, JSX.Element> {
@@ -148,11 +154,8 @@ class App extends React.Component<P, S> {
   private configAndDefaultProps(partState: PartState): Object {
     let res = partState.config.toObject();
     _.set(res, 'receiveAction', (action: Action) => {
-      if (action.payload === undefined) {
-        action.payload = Immutable.Map<string, string>();
-      }
       action.payload = action.payload.set('partId', partState.id + '');
-      return this.receiveAction(action);
+      this.receiveAction(action);
     });
     return res;
   }
