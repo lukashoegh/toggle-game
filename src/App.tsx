@@ -2,11 +2,11 @@ import * as React from 'react';
 import './App.css';
 import Level from './Level';
 import * as Immutable from 'immutable';
-import { PartState, toPartState, topLevel } from './Part';
+import { PartState, toPartState, topLevel, PartDescription } from './Part';
 import LevelTitle from './LevelTitle';
 import LevelFooter from './LevelFooter';
 import Container from './Parts/Container/Container';
-import { isPartDescription } from './Level';
+import { isPartDescription, isConnection } from './Level';
 import Action from './Action';
 import * as _ from 'lodash';
 import Logic from './Logic';
@@ -26,6 +26,7 @@ interface S {
 class App extends React.Component<P, S> {
 
   private logics: Immutable.Map<number, Logic>;
+  private connections: Immutable.List<Connection>;
   private actionQueue: Immutable.List<Action>;
   private processingActionQueue: boolean;
 
@@ -33,6 +34,7 @@ class App extends React.Component<P, S> {
     super(props);
     this.initializeState();
     this.initializeLogics();
+    this.initializeConnections();
     this.initializeActionQueue();
   }
 
@@ -69,7 +71,15 @@ class App extends React.Component<P, S> {
   }
 
   private triggerConnection(connection: Connection, payload: string): void {
-    let id = this.getPartStateByName(connection.to).id;
+    let target = this.getPartStateByName(connection.to);
+    let id: number;
+    if (target !== undefined) {
+      id = target.id;
+    }
+    else {
+      throw new Error('Attempted to part with name: ' + connection.to
+        + ', which should never happen, as the connection should have been validated on load');
+    }
     let action: Action = {
       type: CONNECTION_INPUT,
       payload: Immutable.Map<string, string>({
@@ -83,15 +93,22 @@ class App extends React.Component<P, S> {
 
   private initializeState() {
     this.state = { partStates: Immutable.Map<number, PartState>() };
+    this.connections = Immutable.List<Connection>();
     for (let part of this.props.level.parts) {
       if (isPartDescription(part)) {
-        let partState = toPartState(part);
-        this.state = { partStates: this.state.partStates.set(partState.id, partState) };
+        this.initializePartState(part);
+      } else if (isConnection(part)) {
+        this.connections = this.connections.push(part);
       }
     }
   }
 
-  private getPartStateByName(name: string): PartState {
+  private initializePartState(part: PartDescription) {
+    let partState = toPartState(part);
+    this.state = { partStates: this.state.partStates.set(partState.id, partState) };
+  }
+
+  private getPartStateByName(name: string): PartState | undefined {
     return this.state.partStates.find(
       (partState: PartState) => (partState.name === name)
     );
@@ -111,6 +128,24 @@ class App extends React.Component<P, S> {
       );
       this.logics = this.logics.set(partState.id, logic);
     });
+  }
+
+  private initializeConnections() {
+    this.connections.forEach(this.initializeConnection, this);
+  }
+
+  private initializeConnection(con: Connection) {
+    let from = this.getPartStateByName(con.from);
+    if (from === undefined) {
+      throw new Error('You attempted to create a connection from the component: ' + con.from
+        + ', which is an unknown component.');
+    }
+    let to = this.getPartStateByName(con.to);
+    if (to === undefined) {
+      throw new Error('You attempted to create a connection to the component: ' + con.to
+        + ', which is an unknown component.');
+    }
+    this.logics.get(from.id).registerConnection(con);
   }
 
   private initializeActionQueue() {

@@ -127,4 +127,18 @@ describe('<App /> Logics', () => {
     wrapper.find('.Toggle-wrapper').first().simulate('click');
     expect(inputSpy.called).toBeTruthy();
   });
+  it('Valid connections are passed to the corresponding logic', () => {
+    let testConnection = { from: 'one', output: 'toggle', to: 'two', input: 'toggle' };
+    let registerConnectionSpy = sinon.spy();
+    stub = sinon.stub(Toggle, 'Logic', () => ({
+      registerConnection: registerConnectionSpy
+    }));
+    level.parts.push(
+      { type: 'toggle', name: 'one' },
+      { type: 'toggle', name: 'two' },
+      testConnection
+    );
+    shallow(<App level={level} />);
+    expect(registerConnectionSpy.calledWith(testConnection)).toBeTruthy();
+  });
 });

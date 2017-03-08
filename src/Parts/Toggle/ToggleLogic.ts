@@ -23,6 +23,12 @@ export default class ToggleLogic implements Logic {
     }
 
     private triggerOutputs() {
-        return true;
+        let connection: Connection = {
+            from: '',
+            output: '',
+            to: '',
+            input: ''
+        };
+        this.triggerConnection(connection, '');
     }
 }
