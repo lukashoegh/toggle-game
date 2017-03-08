@@ -3,6 +3,7 @@ import Logic from './Logic';
 import * as Immutable from 'immutable';
 import * as _ from 'lodash';
 import Action from './Action';
+import { Connection } from './Connection';
 
 export interface PartDescription {
     type: string;
@@ -15,7 +16,6 @@ export interface PartDescription {
 export const fullTextField = Symbol();
 
 export interface DefaultProps {
-    id: number;
     receiveAction: (action: Action) => void;
 }
 
@@ -23,6 +23,7 @@ export interface Part {
     readonly Logic: (
         getConfig: (key: string) => string,
         setConfig: (key: string, value: string) => void,
+        triggerConnection: (connection: Connection, payload: string) => void
     ) => Logic;
     readonly Component: typeof React.Component;
     readonly specification: Specification;

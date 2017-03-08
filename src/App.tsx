@@ -14,6 +14,7 @@ import Logic from './Logic';
 // Component list:
 import './Parts/Toggle/Toggle';
 import './Parts/Container/Container';
+import { Connection } from './Connection';
 
 interface P {
   level: Level;
@@ -24,11 +25,14 @@ interface S {
 class App extends React.Component<P, S> {
 
   private logics: Immutable.Map<number, Logic>;
+  private actionQueue: Immutable.List<Action>;
+  private processingActionQueue: boolean;
 
   constructor(props: P) {
     super(props);
     this.initializeState();
     this.initializeLogics();
+    this.initializeActionQueue();
   }
 
   public render() {
@@ -43,8 +47,28 @@ class App extends React.Component<P, S> {
     );
   }
 
-  public receiveAction(partId: number, action: Action): void {
-    this.logics.get(partId);
+  public receiveAction(action: Action): void {
+    this.actionQueue = this.actionQueue.unshift(action);
+    if (!this.processingActionQueue) {
+      this.processActionQueue();
+    }
+  }
+
+  public getConfig(partId: number, key: string): string {
+    let partState = this.state.partStates.get(partId);
+    return partState.config.get(key);
+  }
+
+  public setConfig(partId: number, key: string, value: string): void {
+    this.setState((prevState: S) => {
+      let partState = prevState.partStates.get(partId);
+      partState.config = partState.config.set(key, value);
+      return prevState.partStates.set(partId, partState);
+    });
+  }
+
+  private triggerConnection(connection: Connection, payload: string): void {
+    
   }
 
   private initializeState() {
@@ -57,11 +81,13 @@ class App extends React.Component<P, S> {
     }
   }
 
+  /*
   private getPartStateByName(name: string): PartState {
     return this.state.partStates.find(
       (partState: PartState) => (partState.name === name)
     );
   }
+  */
 
   private initializeLogics() {
     this.logics = Immutable.Map<number, Logic>();
@@ -72,23 +98,34 @@ class App extends React.Component<P, S> {
         },
         (key: string, value: string) => {
           this.setConfig(partState.id, key, value);
-        }
+        },
+        this.triggerConnection
       );
       this.logics = this.logics.set(partState.id, logic);
     });
   }
 
-  private getConfig(partId: number, key: string): string {
-    let partState = this.state.partStates.get(partId);
-    return partState.config.get(key);
+  private initializeActionQueue() {
+    this.actionQueue = Immutable.List<Action>();
+    this.processingActionQueue = false;
   }
 
-  private setConfig(partId: number, key: string, value: string): void {
-    this.setState((prevState: S) => {
-      let partState = prevState.partStates.get(partId);
-      partState.config = partState.config.set(key, value);
-      return prevState.partStates.set(partId, partState);
-    });
+  private processActionQueue() {
+    this.processingActionQueue = this.actionQueue.isEmpty();
+    if (this.processingActionQueue) {
+      let last = this.actionQueue.last();
+      this.processAction(last);
+      this.actionQueue = this.actionQueue.pop();
+      this.processActionQueue();
+    }
+  }
+
+  private processAction(action: Action) {
+    if (action.payload !== undefined) {
+      let id = action.payload.get('partId');
+      let logic = this.logics.get(parseInt(id, 10));
+      logic.input(action);
+    }
   }
 
   private getChildren(parent: string | symbol): Immutable.Iterable<number, JSX.Element> {
@@ -110,8 +147,13 @@ class App extends React.Component<P, S> {
 
   private configAndDefaultProps(partState: PartState): Object {
     let res = partState.config.toObject();
-    _.set(res, 'receiveAction', (action: Action) => this.receiveAction(partState.id, action));
-    _.set(res, 'id', partState.id);
+    _.set(res, 'receiveAction', (action: Action) => {
+      if (action.payload === undefined) {
+        action.payload = Immutable.Map<string, string>();
+      }
+      action.payload = action.payload.set('partId', partState.id + '');
+      return this.receiveAction(action);
+    });
     return res;
   }
 }

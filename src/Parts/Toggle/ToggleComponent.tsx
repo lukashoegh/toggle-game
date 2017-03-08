@@ -8,7 +8,6 @@ interface P extends DefaultProps {
     size: string;
     state: string;
     label: string;
-    receiveAction: (action: Action) => void;
 }
 
 export default class ToggleComponent extends React.Component<P, null> {

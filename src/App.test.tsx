@@ -117,19 +117,17 @@ describe('<App /> Logics', () => {
   });
   it('A logic can modify its component by doing setConfig calls', () => {
     spy = sinon.spy(Toggle, 'Logic');
-    level.parts.push({ type: 'toggle'});
+    level.parts.push({ type: 'toggle' });
     const wrapper = shallow(<App level={level} />);
     spy.firstCall.args[1]('state', 'on');
     expect(wrapper.find(Toggle.Component).first().prop('state')).toEqual('on');
   });
-  xit('Clicking a toggle triggers the corresponding logic', () => {
+  it('Clicking a toggle triggers the corresponding logic', () => {
     let triggerSpy = sinon.spy();
-    stub = sinon.stub(Toggle, 'Logic', () => {
-      return ({
-        trigger: triggerSpy
-      });
-    });
-    level.parts.push({ type: 'toggle'});
+    stub = sinon.stub(Toggle, 'Logic', () => ({
+      trigger: triggerSpy
+    }));
+    level.parts.push({ type: 'toggle' });
     const wrapper = mount(<App level={level} />);
     wrapper.find(Toggle.Component).first().simulate('click');
     expect(triggerSpy.called).toBeTruthy();
