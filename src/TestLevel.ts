@@ -26,7 +26,22 @@ class TestLevel implements Level {
         {
             type: 'toggle',
             parent: '4',
-            size: 6
+            size: 4
+        },
+        {
+            type: 'toggle',
+            parent: '4',
+            size: 4
+        },
+        {
+            type: 'toggle',
+            parent: '4',
+            size: 4
+        },
+        {
+            type: 'toggle',
+            parent: '4',
+            size: 4
         },
 
     ];

@@ -145,7 +145,8 @@ class App extends React.Component<P, S> {
       throw new Error('You attempted to create a connection to the component: ' + con.to
         + ', which is an unknown component.');
     }
-    this.logics.get(from.id).registerConnection(con);
+    this.logics.get(from.id).registerConnectionFrom(con);
+    this.logics.get(to.id).registerConnectionTo(con);
   }
 
   private initializeActionQueue() {
@@ -180,10 +181,10 @@ class App extends React.Component<P, S> {
   private getComponent(partState: PartState): JSX.Element {
     let PartComponent = partState.type.Component;
     return (partState.type.canHaveChildren && partState.name !== undefined) ?
-      <PartComponent key={partState.id} {...this.configAndDefaultProps(partState)}>
+      <PartComponent key={partState.id} {...this.configAndDefaultProps(partState) }>
         {this.getChildren(partState.name)}
       </PartComponent> :
-      <PartComponent key={partState.id} {...this.configAndDefaultProps(partState)} />;
+      <PartComponent key={partState.id} {...this.configAndDefaultProps(partState) } />;
   }
 
   private configAndDefaultProps(partState: PartState): Object {

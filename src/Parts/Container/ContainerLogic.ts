@@ -13,6 +13,12 @@ export default class ContainerLogic {
             this.triggerOutputs();
         }
     }
+    public registerConnectionTo(connection: Connection) {
+        return;
+    }
+    public registerConnectionFrom(connection: Connection) {
+        return;
+    }
 
     private toggleState() {
         let state = (this.getConfig('state') === 'on') ? 'off' : 'on';

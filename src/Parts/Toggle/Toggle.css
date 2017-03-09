@@ -38,7 +38,7 @@
         0 5px 10px rgba(0,0,0,0.6),
         inset 12px 12px 12px white;
     border: 3px solid rgb(127,127,127);
-    transition: left 0.2s;
+    transition: left 0.15s;
 }
 .Toggle-button:after {
     content: "";
@@ -46,14 +46,14 @@
     width: 89px;
     height: 89px;
     border-radius: 50%;
-    border: 3px solid rgba(0,128,36,0.6);
+    border: 10px solid rgba(0,128,36,0.6);
     box-shadow:
         inset 8px 8px 8px rgba(0,0,0,0.2);
     position: absolute;
-    top: 10px;
-    left: 10px;
+    top: 3px;
+    left: 3px;
     opacity: 0;
-    transition: opacity 0.2s;
+    transition: opacity 0.15s;
 }
 
 .Toggle-on .Toggle-button {

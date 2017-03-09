@@ -17,18 +17,19 @@ export default class ToggleLogic implements Logic {
         }
     }
 
+    public registerConnectionTo(connection: Connection) {
+        return;
+    }
+    public registerConnectionFrom(connection: Connection) {
+        return;
+    }
+
     private toggleState() {
         let state = (this.getConfig('state') === 'on') ? 'off' : 'on';
         this.setConfig('state', state);
     }
 
     private triggerOutputs() {
-        let connection: Connection = {
-            from: '',
-            output: '',
-            to: '',
-            input: ''
-        };
-        this.triggerConnection(connection, '');
+        return;
     }
 }
