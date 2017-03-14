@@ -1,31 +1,29 @@
 import { Part, registerPart, specificationFromObject, fullTextField } from '../../Part';
-import ToggleComponent from './ToggleComponent';
-import ToggleLogic from './ToggleLogic';
 import * as Immutable from 'immutable';
 import * as _ from 'lodash';
 import { Connection } from '../../Connection';
+import TriggerLogic from './TriggerLogic';
+import TriggerComponent from './TriggerComponent';
 
-const Toggle: Part = {
+const Trigger: Part = {
     Logic: (
         getConfig: (key: string) => string,
         setConfig: (key: string, value: string) => void,
         triggerConnection: (connection: Connection, payload: string) => void
-    ) => new ToggleLogic(getConfig, setConfig, triggerConnection),
-    Component: ToggleComponent,
+    ) => new TriggerLogic(getConfig, setConfig, triggerConnection),
+    Component: TriggerComponent,
     specification: specificationFromObject({
         state: ['on', 'off'],
         size: _.range(1, 21),
         label: fullTextField,
-        color: ['red', 'yellow', 'green', 'blue'],
     }),
     defaultConfig: Immutable.Map<string, string>({
         state: 'off',
         size: 4,
         label: '',
-        color: 'green',
     }),
     canHaveChildren: false
 };
-export default Toggle;
+export default Trigger;
 
-registerPart('toggle', Toggle);
+registerPart('trigger', Trigger);

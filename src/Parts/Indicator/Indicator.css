@@ -1,0 +1,51 @@
+.Indicator-background {
+    border-radius: 50%;
+    background-color: rgb(100,0,0);
+    box-shadow:
+        inset 15px 30px 45px rgba(0,0,0,0.7),
+        0 4px 1px white;
+}
+.Indicator-light {
+    z-index: 3;
+    background:
+        radial-gradient(circle at center, rgba(255,225,180,0.8) 0%, rgba(255,0,0,1) 50%, rgba(255,0,0,1) 100%);
+    border-radius: 50%;
+    box-shadow:
+        0 0 90px 2px red,
+        inset 5px 5px 20px rgba(0,0,0,0.3);
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+.Indicator-on .Indicator-light {
+    opacity: 1;
+}
+.Indicator-off-shadow {
+    z-index: 2;
+    border-radius: 50%;
+    box-shadow:
+        -10px -10px 20px rgba(0,0,0,0.3),
+        10px 10px 20px rgba(0,0,0,0.3);
+    opacity: 1;
+    transition: opacity 0.2s;
+}
+.Indicator-on .Indicator-off-shadow {
+    opacity: 0;
+}
+
+.Indicator-reflection {
+    border-radius: 50%;
+    z-index: 4;
+    overflow: hidden;
+}
+.Indicator-reflection::after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: -180px;
+    left: -54px;
+    width: 288px;
+    height: 288px;
+    border-radius: 50%;
+    background-color: white;
+    opacity: 0.1;
+}

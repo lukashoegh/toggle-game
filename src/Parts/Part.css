@@ -1,0 +1,38 @@
+.label {
+    display: block;
+    position: relative;
+    color: rgba(0,0,0,0.8);
+    z-index: 1;
+    cursor: default;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.label::selection {
+    background-color: transparent;
+    color: inherit;
+}
+
+.part { 
+    position: relative;
+}
+
+.part-inside-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    height: 200px;
+    width: 200px;
+    transform-origin: top left;
+}
+
+.part-inside-wrapper > * {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    display: block;
+    box-sizing: border-box;
+    width: 180px;
+    height: 180px;
+}

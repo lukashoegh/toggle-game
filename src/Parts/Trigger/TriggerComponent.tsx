@@ -1,6 +1,6 @@
 import * as React from 'react';
 import './../Part.css';
-import './Toggle.css';
+import './Trigger.css';
 import Action from '../../Action';
 import { DefaultProps } from '../../Part';
 import { USER_INPUT, emptyPayload } from '../../Action';
@@ -11,10 +11,9 @@ interface P extends DefaultProps {
     size: string;
     state: string;
     label: string;
-    color: string;
 }
 
-export default class ToggleComponent extends React.Component<P, null> {
+export default class TriggerComponent extends React.Component<P, null> {
 
     constructor(props: P) {
         super(props);
@@ -27,15 +26,16 @@ export default class ToggleComponent extends React.Component<P, null> {
             transform: 'scale(' + scale + ')',
         };
         const labelElement = getLabel(this.props.label, scale, 400);
-        let classes = 'Toggle-' + this.props.color + ' Toggle part';
+        let classes = 'Trigger part';
         if (this.props.state === 'on') {
-            classes += ' Toggle-on';
+            classes += ' Trigger-on';
         }
         return (
             <div className={classes} style={partStyle}>
-                <div className="Toggle-wrapper part-inside-wrapper" style={innerStyle} onClick={this.handleClick}>
-                    <span className="Toggle-background" />
-                    <span className="Toggle-button" />
+                <div className="Trigger-wrapper part-inside-wrapper" style={innerStyle} onClick={this.handleClick}>
+                    <span className="Trigger-border" />
+                    <span className="Trigger-background" />
+                    <span className="Trigger-button" />
                 </div>
                 {labelElement}
             </div>

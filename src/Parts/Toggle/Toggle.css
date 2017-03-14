@@ -1,70 +1,76 @@
-.Toggle { 
-    position: relative;
-}
-
-.Toggle-wrapper {
-    padding: 40px 0;
-    transform-origin: top left;
-    cursor: pointer;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 2;
-}
-
 .Toggle-background {
-    display: block;
-    width: 250px;
-    height: 50px;
+    top: 60px;
+    width: 330px;
+    height: 80px;
     background-color: rgb(157,157,157);
-    border-radius: 25px;
-    box-shadow: inset 0 10px 20px rgba(0,0,0,0.6);
+    border-radius: 40px;
+    box-shadow: inset 0 15px 30px rgba(0,0,0,0.6);
     transition: background-color 0.5s;
 }
-
-.Toggle-on .Toggle-background {
-    background-color: rgb(65,195,102);
-}
 .Toggle-button {
-    display: block;
-    width: 115px;
-    height: 115px;
     border-radius: 50%;
-    position: absolute;
-    top: 5px;
-    left: 0;
     background-color: rgb(220,220,220);
     box-shadow:
-        0 5px 10px rgba(0,0,0,0.6),
-        inset 12px 12px 12px white;
-    border: 3px solid rgb(127,127,127);
+        0 8px 15px rgba(0,0,0,0.6),
+        inset 18px 18px 18px white;
+    border: 5px solid rgb(127,127,127);
     transition: left 0.15s;
 }
-.Toggle-button:after {
+.Toggle-button::after {
     content: "";
     display: block;
-    width: 89px;
-    height: 89px;
+    width: 150px;
+    height: 150px;
+    box-sizing: border-box;
     border-radius: 50%;
-    border: 10px solid rgba(0,128,36,0.6);
+    border: 10px solid black;
     box-shadow:
-        inset 8px 8px 8px rgba(0,0,0,0.2);
+        inset 12px 12px 12px rgba(0,0,0,0.2);
     position: absolute;
-    top: 3px;
-    left: 3px;
+    top: 10px;
+    left: 10px;
     opacity: 0;
     transition: opacity 0.15s;
 }
 
 .Toggle-on .Toggle-button {
-    left: 129px;
+    left: 160px;
 }
-.Toggle-on .Toggle-button:after {
+.Toggle-on .Toggle-button::after {
     opacity: 1;
 }
 
-.Toggle-label {
-    display: block;
-    position: relative;
-    color: rgba(0,0,0,0.8);
+/* Red */
+.Toggle-on.Toggle-red .Toggle-background {
+    background-color: rgb(225,50,50);
+}
+.Toggle-red .Toggle-button::after {
+    border-color: rgba(128,0,0,0.7);
+}
+/* Yellow */
+.Toggle-on.Toggle-yellow .Toggle-background {
+    background: linear-gradient(rgb(255,235,120), rgb(255,255,200));
+    box-shadow: inset 0 15px 30px rgba(0,0,0,0.3);
+}
+.Toggle-yellow .Toggle-button::after {
+    top: 15px;
+    left: 15px;
+    width: 140px;
+    height: 140px;
+    border-width: 5px;
+    border-color: rgba(255,235,0,0.7);
+}
+/* Green */
+.Toggle-on.Toggle-green .Toggle-background {
+    background-color: rgb(65,195,102);
+}
+.Toggle-green .Toggle-button::after {
+    border-color: rgba(0,128,36,0.6);
+}
+/* Blue */
+.Toggle-on.Toggle-blue .Toggle-background {
+    background-color: rgb(74,85,205);
+}
+.Toggle-blue .Toggle-button::after {
+    border-color: rgba(20,45,128,0.6);
 }
