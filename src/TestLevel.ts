@@ -31,7 +31,7 @@ class TestLevel implements Level {
         {
             type: 'toggle',
             parent: '4',
-            size: 4
+            size: 8
         },
         {
             type: 'toggle',

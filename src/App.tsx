@@ -134,19 +134,29 @@ class App extends React.Component<P, S> {
     this.connections.forEach(this.initializeConnection, this);
   }
 
-  private initializeConnection(con: Connection) {
-    let from = this.getPartStateByName(con.from);
+  private initializeConnection(connection: Connection) {
+    let from = this.getPartStateByName(connection.from);
     if (from === undefined) {
-      throw new Error('You attempted to create a connection from the component: ' + con.from
+      throw new Error('You attempted to create a connection from the component: ' + connection.from
         + ', which is an unknown component.');
     }
-    let to = this.getPartStateByName(con.to);
+    let logic = this.logics.get(from.id);
+    if (!logic.hasOutput(connection.output)) {
+      throw new Error('You attempted to create a connection from the output: ' + connection.output 
+      + ', which does not exist on the component type ' + from.type.Component.name + '.');
+    }
+    logic.registerConnectionFrom(connection);
+    let to = this.getPartStateByName(connection.to);
     if (to === undefined) {
-      throw new Error('You attempted to create a connection to the component: ' + con.to
+      throw new Error('You attempted to create a connection to the component: ' + connection.to
         + ', which is an unknown component.');
     }
-    this.logics.get(from.id).registerConnectionFrom(con);
-    this.logics.get(to.id).registerConnectionTo(con);
+    logic = this.logics.get(to.id);
+    if (!logic.hasInput(connection.input)) {
+      throw new Error('You attempted to create a connection to the input: ' + connection.input
+      + ', which does not exist on the component type ' + to.type.Component.name + '.');
+    }
+    logic.registerConnectionTo(connection);
   }
 
   private initializeActionQueue() {

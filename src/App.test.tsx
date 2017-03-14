@@ -129,9 +129,13 @@ describe('<App /> Logics', () => {
   });
   it('Valid connections are passed to the corresponding logic', () => {
     let testConnection = { from: 'one', output: 'toggle', to: 'two', input: 'toggle' };
-    let registerConnectionSpy = sinon.spy();
+    let registerConnectionToSpy = sinon.spy();
+    let registerConnectionFromSpy = sinon.spy();
     stub = sinon.stub(Toggle, 'Logic', () => ({
-      registerConnection: registerConnectionSpy
+      registerConnectionTo: registerConnectionToSpy,
+      registerConnectionFrom: registerConnectionFromSpy,
+      hasInput: () => true,
+      hasOutput: () => true
     }));
     level.parts.push(
       { type: 'toggle', name: 'one' },
@@ -139,6 +143,34 @@ describe('<App /> Logics', () => {
       testConnection
     );
     shallow(<App level={level} />);
-    expect(registerConnectionSpy.calledWith(testConnection)).toBeTruthy();
+    expect(registerConnectionToSpy.calledWith(testConnection)).toBeTruthy();
+    expect(registerConnectionFromSpy.calledWith(testConnection)).toBeTruthy();
+  });
+  it('Inputting a connection with an invalid "from" causes an error', () => {
+    let testConnection = { from: 'oneX', output: 'toggle', to: 'two', input: 'toggle' };
+    level.parts.push(
+      { type: 'toggle', name: 'one' },
+      { type: 'toggle', name: 'two' },
+      testConnection
+    );
+    expect(() => shallow(<App level={level} />)).toThrow();
+  });
+  it('Inputting a connection with an invalid "to" causes an error', () => {
+    let testConnection = { from: 'one', output: 'toggle', to: 'twoX', input: 'toggle' };
+    level.parts.push(
+      { type: 'toggle', name: 'one' },
+      { type: 'toggle', name: 'two' },
+      testConnection
+    );
+    expect(() => shallow(<App level={level} />)).toThrow();
+  });
+  it('Inputting a connection with an invalid "output" causes an error', () => {
+    let testConnection = { from: 'one', output: 'toggleX', to: 'two', input: 'toggle' };
+    level.parts.push(
+      { type: 'toggle', name: 'one' },
+      { type: 'toggle', name: 'two' },
+      testConnection
+    );
+    expect(() => shallow(<App level={level} />)).toThrow();
   });
 });

@@ -13,6 +13,14 @@ export default class ContainerLogic {
             this.triggerOutputs();
         }
     }
+
+    public hasInput(name: string): boolean {
+        return true;
+    }
+
+    public hasOutput(name: string): boolean {
+        return true;
+    }
     public registerConnectionTo(connection: Connection) {
         return;
     }
