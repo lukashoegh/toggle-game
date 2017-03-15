@@ -16,6 +16,8 @@ import { CONNECTION_INPUT } from './Action';
 // Component list:
 import './Parts/Toggle/Toggle';
 import './Parts/Container/Container';
+import './Parts/Button/Button';
+import './Parts/Indicator/Indicator';
 
 interface P {
   level: Level;

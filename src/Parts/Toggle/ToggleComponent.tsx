@@ -33,7 +33,11 @@ export default class ToggleComponent extends React.Component<P, null> {
         }
         return (
             <div className={classes} style={partStyle}>
-                <div className="Toggle-wrapper part-inside-wrapper" style={innerStyle} onClick={this.handleClick}>
+                <div 
+                    className="Toggle-wrapper part-inside-wrapper" 
+                    style={innerStyle}
+                    onClick={this.handleClick}
+                >
                     <span className="Toggle-background" />
                     <span className="Toggle-button" />
                 </div>
@@ -42,7 +46,7 @@ export default class ToggleComponent extends React.Component<P, null> {
         );
     }
 
-    private handleClick<T>(e: T): void {
+    private handleClick(): void {
         let action: Action = { 
             type: USER_INPUT,
             payload: emptyPayload

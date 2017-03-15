@@ -9,6 +9,7 @@ import { getLabel, getPartSizing } from '../PartUtils';
 interface P extends DefaultProps {
     size: string;
     label: string;
+    color: string;
 }
 
 export default class ButtonComponent extends React.Component<P, null> {
@@ -22,8 +23,9 @@ export default class ButtonComponent extends React.Component<P, null> {
             transform: 'scale(' + scale + ')',
         };
         const labelElement = getLabel(this.props.label, scale);
+        const classes = 'Button-' + this.props.color + ' Button part';
         return (
-            <div className="Button part" style={partStyle}>
+            <div className={classes} style={partStyle}>
                 <div className="Button-wrapper part-inside-wrapper" style={innerStyle}>
                     <span className="Button-border" />
                     <span className="Button-background" />

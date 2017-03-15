@@ -14,11 +14,13 @@ const Button: Part = {
     Component: ButtonComponent,
     specification: specificationFromObject({
         size: _.range(1, 21),
-        label: fullTextField
+        label: fullTextField,
+        color: ['red', 'yellow', 'green', 'blue'],
     }),
     defaultConfig: Immutable.Map<string, string>({
         size: 4,
         label: '',
+        color: 'red',
     }),
     canHaveChildren: false
 };

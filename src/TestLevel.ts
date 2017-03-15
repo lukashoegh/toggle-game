@@ -3,47 +3,94 @@ import Level from './Level';
 class TestLevel implements Level {
     public title = 'Test Level';
     public author = 'Lukas Høgh';
+    public size = 15;
     public parts = [
         {
-            type: 'container',
-            name: '1'
+            type: 'toggle',
+            color: 'red',
+            size: this.size
         },
         {
-            type: 'container',
-            name: '2',
-            parent: '1'
+            type: 'button',
+            color: 'red',
+            size: this.size
         },
         {
-            type: 'container',
-            name: '3',
-            parent: '2'
+            type: 'indicator',
+            state: 'off',
+            size: this.size
         },
         {
-            type: 'container',
-            name: '4',
-            parent: '3'
+            type: 'indicator',
+            state: 'on',
+            size: this.size
         },
         {
             type: 'toggle',
-            parent: '4',
-            size: 4
+            color: 'yellow',
+            size: this.size
+        },
+        {
+            type: 'button',
+            color: 'yellow',
+            size: this.size
+        },
+        {
+            type: 'indicator',
+            state: 'off',
+            color: 'yellow',
+            size: this.size
+        },
+        {
+            type: 'indicator',
+            state: 'on',
+            color: 'yellow',
+            size: this.size
         },
         {
             type: 'toggle',
-            parent: '4',
-            size: 8
+            color: 'green',
+            size: this.size
+        },
+        {
+            type: 'button',
+            color: 'green',
+            size: this.size
+        },
+        {
+            type: 'indicator',
+            state: 'off',
+            color: 'green',
+            size: this.size
+        },
+        {
+            type: 'indicator',
+            state: 'on',
+            color: 'green',
+            size: this.size
         },
         {
             type: 'toggle',
-            parent: '4',
-            size: 4
+            color: 'blue',
+            size: this.size
         },
         {
-            type: 'toggle',
-            parent: '4',
-            size: 4
+            type: 'button',
+            color: 'blue',
+            size: this.size
         },
-
+        {
+            type: 'indicator',
+            state: 'off',
+            color: 'blue',
+            size: this.size
+        },
+        {
+            type: 'indicator',
+            state: 'on',
+            color: 'blue',
+            size: this.size
+        },
     ];
 }
 

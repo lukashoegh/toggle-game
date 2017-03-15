@@ -15,12 +15,14 @@ const Indicator: Part = {
     specification: specificationFromObject({
         state: ['on', 'off'],
         size: _.range(1, 21),
-        label: fullTextField
+        label: fullTextField,
+        color: ['red', 'yellow', 'green', 'blue'],
     }),
     defaultConfig: Immutable.Map<string, string>({
         state: 'off',
         size: 4,
         label: '',
+        color: 'red'
     }),
     canHaveChildren: false
 };

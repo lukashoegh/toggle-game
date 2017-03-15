@@ -10,6 +10,7 @@ interface P extends DefaultProps {
     size: string;
     state: string;
     label: string;
+    color: string;
 }
 
 export default class IndicatorComponent extends React.Component<P, null> {
@@ -23,7 +24,7 @@ export default class IndicatorComponent extends React.Component<P, null> {
             transform: 'scale(' + scale + ')',
         };
         const labelElement = getLabel(this.props.label, scale);
-        let classes = 'Indicator part';
+        let classes = 'Indicator-' + this.props.color + ' Indicator part';
         if (this.props.state === 'on') {
             classes += ' Indicator-on';
         }
