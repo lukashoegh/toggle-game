@@ -1,16 +1,16 @@
 import { Part, registerPart, specificationFromObject, fullTextField } from '../../Part';
 import * as Immutable from 'immutable';
 import * as _ from 'lodash';
-import { Connection } from '../../Connection';
 import ButtonComponent from './ButtonComponent';
 import ButtonLogic from './ButtonLogic';
+import Action from '../../Action';
 
 const Button: Part = {
     Logic: (
         getConfig: (key: string) => string,
         setConfig: (key: string, value: string) => void,
-        triggerConnection: (connection: Connection, payload: string) => void
-    ) => new ButtonLogic(getConfig, setConfig, triggerConnection),
+        receiveAction: (action: Action) => void
+    ) => new ButtonLogic(getConfig, setConfig, receiveAction),
     Component: ButtonComponent,
     specification: specificationFromObject({
         size: _.range(1, 21),

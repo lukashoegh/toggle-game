@@ -11,7 +11,6 @@ interface StringConnection extends Connection {
     to: string;
     input: string;
 }
-
 export function toAndFromAreStrings(connection: Connection): connection is StringConnection {
     if (typeof connection.from === 'string') {
         return typeof connection.to === 'string';

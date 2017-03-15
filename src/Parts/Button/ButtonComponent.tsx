@@ -1,9 +1,7 @@
 import * as React from 'react';
 import './../Part.css';
 import './Button.css';
-import Action from '../../Action';
 import { DefaultProps } from '../../Part';
-import { USER_INPUT, emptyPayload } from '../../Action';
 import { getLabel, getPartSizing } from '../PartUtils';
 
 interface P extends DefaultProps {

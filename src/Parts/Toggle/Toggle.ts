@@ -3,14 +3,14 @@ import ToggleComponent from './ToggleComponent';
 import ToggleLogic from './ToggleLogic';
 import * as Immutable from 'immutable';
 import * as _ from 'lodash';
-import { Connection } from '../../Connection';
+import Action from '../../Action';
 
 const Toggle: Part = {
     Logic: (
         getConfig: (key: string) => string,
         setConfig: (key: string, value: string) => void,
-        triggerConnection: (connection: Connection, payload: string) => void
-    ) => new ToggleLogic(getConfig, setConfig, triggerConnection),
+        receiveAction: (action: Action) => void
+    ) => new ToggleLogic(getConfig, setConfig, receiveAction),
     Component: ToggleComponent,
     specification: specificationFromObject({
         state: ['on', 'off'],

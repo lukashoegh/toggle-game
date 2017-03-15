@@ -1,26 +1,30 @@
 import Logic from '../../Logic';
 import Action from '../../Action';
 import { Connection } from '../../Connection';
-import { USER_INPUT } from '../../Action';
 import * as Immutable from 'immutable';
 
 export default class ButtonLogic implements Logic {
 
     private inputs: Immutable.List<string>;
     private outputs: Immutable.List<string>;
+    private connections: Immutable.List<Connection>;
 
     constructor(
         private getConfig: (key: string) => string,
         private setConfig: (key: string, value: string) => void,
-        private triggerConnection: (connection: Connection, payload: string) => void) {
-        
+        private receiveAction: (action: Action) => void) {
+
         this.inputs = Immutable.List<string>(['toggle']);
         this.outputs = Immutable.List<string>(['toggle']);
+        this.connections = Immutable.List<Connection>();
     }
     public input(action: Action) {
-        if (action.type === USER_INPUT) {
+        if (action.isFromUser) {
             this.toggleState();
             this.triggerOutputs();
+        }
+        else {
+            this.toggleState();
         }
     }
 
@@ -36,7 +40,7 @@ export default class ButtonLogic implements Logic {
         return;
     }
     public registerConnectionFrom(connection: Connection) {
-        return;
+        this.connections = this.connections.push(connection);
     }
 
     private toggleState() {
@@ -45,6 +49,13 @@ export default class ButtonLogic implements Logic {
     }
 
     private triggerOutputs() {
-        return;
+        this.connections.forEach((connection: Connection) => {
+            let payload = this.getConfig('state') === 'on';
+            this.receiveAction({
+                connection: connection,
+                payload: payload,
+                isFromUser: false
+            });
+        });
     }
 }

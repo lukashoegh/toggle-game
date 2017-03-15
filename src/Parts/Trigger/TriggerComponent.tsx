@@ -1,10 +1,7 @@
 import * as React from 'react';
 import './../Part.css';
 import './Trigger.css';
-import Action from '../../Action';
 import { DefaultProps } from '../../Part';
-import { USER_INPUT, emptyPayload } from '../../Action';
-import * as _ from 'lodash';
 import { getPartSizing, getLabel } from '../PartUtils';
 
 interface P extends DefaultProps {
@@ -43,10 +40,6 @@ export default class TriggerComponent extends React.Component<P, null> {
     }
 
     private handleClick<T>(e: T): void {
-        let action: Action = { 
-            type: USER_INPUT,
-            payload: emptyPayload
-        };
-        this.props.receiveAction(action);
+        return;
     }
 }

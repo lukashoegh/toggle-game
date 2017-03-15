@@ -1,16 +1,16 @@
 import { Part, registerPart, specificationFromObject, fullTextField } from '../../Part';
 import * as Immutable from 'immutable';
 import * as _ from 'lodash';
-import { Connection } from '../../Connection';
 import IndicatorLogic from './IndicatorLogic';
 import IndicatorComponent from './IndicatorComponent';
+import Action from '../../Action';
 
 const Indicator: Part = {
     Logic: (
         getConfig: (key: string) => string,
         setConfig: (key: string, value: string) => void,
-        triggerConnection: (connection: Connection, payload: string) => void
-    ) => new IndicatorLogic(getConfig, setConfig, triggerConnection),
+        receiveAction: (action: Action) => void
+    ) => new IndicatorLogic(getConfig, setConfig, receiveAction),
     Component: IndicatorComponent,
     specification: specificationFromObject({
         state: ['on', 'off'],

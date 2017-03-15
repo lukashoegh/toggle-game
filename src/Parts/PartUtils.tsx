@@ -1,5 +1,4 @@
 import * as React from 'react';
-import * as Immutable from 'immutable';
 
 export function getLabel(label: string, scale: number, leftPadding: number = 250): JSX.Element | string {
     const labelStyle = {

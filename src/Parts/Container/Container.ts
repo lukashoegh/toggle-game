@@ -2,14 +2,14 @@ import { Part, registerPart, specificationFromObject } from '../../Part';
 import ContainerLogic from './ContainerLogic';
 import ContainerComponent from './ContainerComponent';
 import * as Immutable from 'immutable';
-import { Connection } from '../../Connection';
+import Action from '../../Action';
 
 const Container: Part = {
     Logic: (
         getConfig: (key: string) => string,
         setConfig: (key: string, value: string) => void,
-        triggerConnection: (connection: Connection, payload: string) => void
-    ) => new ContainerLogic(getConfig, setConfig, triggerConnection),
+        receiveAction: (action: Action) => void
+    ) => new ContainerLogic(getConfig, setConfig, receiveAction),
     Component: ContainerComponent,
     specification: specificationFromObject({
         direction: ['row', 'column'],
