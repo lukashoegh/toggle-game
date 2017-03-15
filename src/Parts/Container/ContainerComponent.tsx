@@ -1,10 +1,16 @@
 import * as React from 'react';
 import './Container.css';
+import { generateClasses } from '../PartUtils';
 
-export default class ContainerComponent extends React.Component<null, null> {
+interface P {
+    direction: string;
+    background: string;
+}
+export default class ContainerComponent extends React.Component<P, null> {
     public render() {
+        const classes = generateClasses('Container', [this.props.direction, this.props.background]);
         return (
-            <div className="container">
+            <div className={classes}>
                 {this.props.children}
             </div>
         );

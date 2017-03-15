@@ -23,7 +23,7 @@ interface P {
   level: Level;
 }
 interface S {
-  partStates: Immutable.Map<number, PartState>;
+  partStates: Immutable.OrderedMap<number, PartState>;
 }
 class App extends React.Component<P, S> {
 
@@ -44,7 +44,7 @@ class App extends React.Component<P, S> {
     return (
       <div className="level">
         <LevelTitle title={this.props.level.title} author={this.props.level.author} />
-        <Container.Component>
+        <Container.Component {...Container.defaultConfig.toObject()}>
           {this.getChildren(topLevel)}
         </Container.Component>
         <LevelFooter />
@@ -94,7 +94,7 @@ class App extends React.Component<P, S> {
   }
 
   private initializeState() {
-    this.state = { partStates: Immutable.Map<number, PartState>() };
+    this.state = { partStates: Immutable.OrderedMap<number, PartState>() };
     this.connections = Immutable.List<Connection>();
     for (let part of this.props.level.parts) {
       if (isPartDescription(part)) {
@@ -185,9 +185,11 @@ class App extends React.Component<P, S> {
   private getChildren(parent: string | symbol): Immutable.Iterable<number, JSX.Element> {
     return this.state.partStates.filter(
       (partState: PartState) => (partState.parent === parent)
-    ).toList().map(
+    )
+    .toList()
+    .map(
       (partState: PartState) => this.getComponent(partState)
-      );
+    );
   }
 
   private getComponent(partState: PartState): JSX.Element {

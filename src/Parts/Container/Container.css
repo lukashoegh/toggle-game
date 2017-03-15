@@ -1,4 +1,15 @@
-.container {
+.Container {
     display: flex;
+}
+.Container-column {
     flex-direction: column;
+}
+.Container-row {
+    flex-direction: row;
+}
+.Container-light {
+    background-color: white;
+}
+.Container-dark {
+    background-color: black;
 }

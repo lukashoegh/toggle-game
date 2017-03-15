@@ -11,8 +11,14 @@ const Container: Part = {
         triggerConnection: (connection: Connection, payload: string) => void
     ) => new ContainerLogic(getConfig, setConfig, triggerConnection),
     Component: ContainerComponent,
-    specification: specificationFromObject({}),
-    defaultConfig: Immutable.Map<string, string>(),
+    specification: specificationFromObject({
+        direction: ['row', 'column'],
+        background: ['light', 'dark', 'none'],
+    }),
+    defaultConfig: Immutable.Map<string, string>({
+        direction: 'column',
+        background: 'none',
+    }),
     canHaveChildren: true
 };
 export default Container;

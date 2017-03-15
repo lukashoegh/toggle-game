@@ -21,3 +21,11 @@ export function getPartSizing(scale: number, width: number = 200, height: number
         minWidth: (scale * width) + 'px'
     };
 }
+
+export function generateClasses(partName: string, props: string[]): string {
+    let res = partName;
+    for (let prop of props) {
+        res += ' ' + partName + '-' + prop;
+    }
+    return res;
+}
