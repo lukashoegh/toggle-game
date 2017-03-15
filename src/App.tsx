@@ -2,7 +2,7 @@ import * as React from 'react';
 import './App.css';
 import Level from './Level';
 import * as Immutable from 'immutable';
-import { PartState, toPartState, topLevel, PartDescription } from './Part';
+import { PartState, toPartState, topLevel, PartDescription, DefaultProps } from './Part';
 import LevelTitle from './LevelTitle';
 import LevelFooter from './LevelFooter';
 import Container from './Parts/Container/Container';
@@ -10,8 +10,7 @@ import { isPartDescription, isConnection } from './Level';
 import Action from './Action';
 import * as _ from 'lodash';
 import Logic from './Logic';
-import { Connection } from './Connection';
-import { CONNECTION_INPUT } from './Action';
+import { Connection, toAndFromAreStrings } from './Connection';
 
 // Component list:
 import './Parts/Toggle/Toggle';
@@ -44,7 +43,7 @@ class App extends React.Component<P, S> {
     return (
       <div className="level">
         <LevelTitle title={this.props.level.title} author={this.props.level.author} />
-        <Container.Component {...Container.defaultConfig.toObject()}>
+        <Container.Component {...Container.defaultConfig.toObject() }>
           {this.getChildren(topLevel)}
         </Container.Component>
         <LevelFooter />
@@ -72,27 +71,6 @@ class App extends React.Component<P, S> {
     });
   }
 
-  private triggerConnection(connection: Connection, payload: string): void {
-    let target = this.getPartStateByName(connection.to);
-    let id: number;
-    if (target !== undefined) {
-      id = target.id;
-    }
-    else {
-      throw new Error('Attempted to part with name: ' + connection.to
-        + ', which should never happen, as the connection should have been validated on load');
-    }
-    let action: Action = {
-      type: CONNECTION_INPUT,
-      payload: Immutable.Map<string, string>({
-        partId: id,
-        input: connection.input,
-        value: payload,
-      })
-    };
-    this.receiveAction(action);
-  }
-
   private initializeState() {
     this.state = { partStates: Immutable.OrderedMap<number, PartState>() };
     this.connections = Immutable.List<Connection>();
@@ -110,7 +88,7 @@ class App extends React.Component<P, S> {
     this.state = { partStates: this.state.partStates.set(partState.id, partState) };
   }
 
-  private getPartStateByName(name: string): PartState | undefined {
+  private getPartStateByName(name: string | symbol): PartState | undefined {
     return this.state.partStates.find(
       (partState: PartState) => (partState.name === name)
     );
@@ -126,7 +104,7 @@ class App extends React.Component<P, S> {
         (key: string, value: string) => {
           this.setConfig(partState.id, key, value);
         },
-        this.triggerConnection
+        (action: Action) => this.receiveAction(action)
       );
       this.logics = this.logics.set(partState.id, logic);
     });
@@ -137,15 +115,19 @@ class App extends React.Component<P, S> {
   }
 
   private initializeConnection(connection: Connection) {
+    if (!toAndFromAreStrings(connection)) {
+      throw new Error('Tried to initialize a connection with a symbol as to or from, which is not allowed');
+    }
     let from = this.getPartStateByName(connection.from);
+
     if (from === undefined) {
       throw new Error('You attempted to create a connection from the component: ' + connection.from
         + ', which is an unknown component.');
     }
     let logic = this.logics.get(from.id);
     if (!logic.hasOutput(connection.output)) {
-      throw new Error('You attempted to create a connection from the output: ' + connection.output 
-      + ', which does not exist on the component type ' + from.type.Component.name + '.');
+      throw new Error('You attempted to create a connection from the output: ' + connection.output
+        + ', which does not exist on the component type ' + from.type.Component.name + '.');
     }
     logic.registerConnectionFrom(connection);
     let to = this.getPartStateByName(connection.to);
@@ -156,7 +138,7 @@ class App extends React.Component<P, S> {
     logic = this.logics.get(to.id);
     if (!logic.hasInput(connection.input)) {
       throw new Error('You attempted to create a connection to the input: ' + connection.input
-      + ', which does not exist on the component type ' + to.type.Component.name + '.');
+        + ', which does not exist on the component type ' + to.type.Component.name + '.');
     }
     logic.registerConnectionTo(connection);
   }
@@ -177,8 +159,15 @@ class App extends React.Component<P, S> {
   }
 
   private processAction(action: Action) {
-    let id = action.payload.get('partId');
-    let logic = this.logics.get(parseInt(id, 10));
+    let toName = action.connection.to;
+    let partState = this.getPartStateByName(toName);
+    if (partState === undefined) {
+      let toString = (typeof toName === 'string') ? toName : 'undefined';
+      throw new Error('Tried to process an action whose connections to field was ' 
+      + toString + ' which is not allowed');
+    }
+    let id = partState.id;
+    let logic = this.logics.get(id);
     logic.input(action);
   }
 
@@ -186,10 +175,10 @@ class App extends React.Component<P, S> {
     return this.state.partStates.filter(
       (partState: PartState) => (partState.parent === parent)
     )
-    .toList()
-    .map(
+      .toList()
+      .map(
       (partState: PartState) => this.getComponent(partState)
-    );
+      );
   }
 
   private getComponent(partState: PartState): JSX.Element {
@@ -202,12 +191,24 @@ class App extends React.Component<P, S> {
   }
 
   private configAndDefaultProps(partState: PartState): Object {
-    let res = partState.config.toObject();
-    _.set(res, 'receiveAction', (action: Action) => {
-      action.payload = action.payload.set('partId', partState.id + '');
-      this.receiveAction(action);
-    });
-    return res;
+    let config = partState.config.toObject();
+    let defaultProps: DefaultProps = {
+      receivePayload: (payload: any) => {
+        let connection: Connection = {
+          from: '',
+          output: '',
+          to: partState.name,
+          input: 'user'
+        };
+        let action: Action = {
+          connection: connection,
+          payload: payload,
+          isFromUser: true
+        };
+        this.receiveAction(action);
+      }
+    };
+    return _.assignIn(config, defaultProps);
   }
 }
 

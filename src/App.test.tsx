@@ -74,10 +74,10 @@ describe('<App /> Rendering', () => {
     const wrapper = shallow(<App level={level} />);
     expect(wrapper.find(Toggle.Component).first().prop('size')).toEqual('10');
   });
-  it('Passes a receiveAction callback as prop', () => {
+  it('Passes a receivePayload callback as prop', () => {
     level.parts.push({ type: 'toggle', size: '10' });
     const wrapper = shallow(<App level={level} />);
-    expect(wrapper.find(Toggle.Component).first().prop('receiveAction')).toBeDefined();
+    expect(wrapper.find(Toggle.Component).first().prop('receivePayload')).toBeDefined();
   });
 });
 
@@ -172,5 +172,15 @@ describe('<App /> Logics', () => {
       testConnection
     );
     expect(() => shallow(<App level={level} />)).toThrow();
+  });
+  it('Connection two toggles, and clicking one, causes the other to toggle aswell', () => {
+    level.parts.push(
+      { type: 'toggle', name: 'one' },
+      { type: 'toggle', name: 'two' },
+      { from: 'one', output: 'toggle', to: 'two', input: 'toggle' }
+    );
+    const wrapper = mount(<App level={level} />);
+    wrapper.find('.Toggle-wrapper').first().simulate('click');
+    expect(wrapper.find('.Toggle').at(1).hasClass('Toggle-on')).toBeTruthy();
   });
 });

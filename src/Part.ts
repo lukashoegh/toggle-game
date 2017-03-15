@@ -2,7 +2,6 @@ import * as React from 'react';
 import Logic from './Logic';
 import * as Immutable from 'immutable';
 import * as _ from 'lodash';
-import { Connection } from './Connection';
 import Action from './Action';
 
 export interface PartDescription {
@@ -16,14 +15,14 @@ export interface PartDescription {
 export const fullTextField = Symbol();
 
 export interface DefaultProps {
-    receiveAction: (action: Action) => void;
+    receivePayload: (payload?: string) => void;
 }
 
 export interface Part {
     readonly Logic: (
         getConfig: (key: string) => string,
         setConfig: (key: string, value: string) => void,
-        triggerConnection: (connection: Connection, payload: string) => void
+        receiveAction: (action: Action) => void
     ) => Logic;
     readonly Component: typeof React.Component;
     readonly specification: Specification;
@@ -57,7 +56,7 @@ export const topLevel = Symbol();
 export interface PartState {
     id: number;
     type: Part;
-    name?: symbol | string;
+    name: symbol | string;
     parent: symbol | string;
     config: Immutable.Map<string, string>;
 }
@@ -75,17 +74,15 @@ export function toPartState(partDescription: PartDescription): PartState {
     if (typePart === undefined) {
         throw new Error('The type ' + partDescription.type + ' is unrecognized.');
     }
+    let name: string | symbol = (partDescription.name === undefined) ? Symbol() : partDescription.name;
+    let parent: string | symbol = (partDescription.parent === undefined) ? topLevel : partDescription.parent;
     let res: PartState = {
         id: nextId,
+        name: name,
         type: typePart,
-        parent: topLevel,
+        parent: parent,
         config: Immutable.Map<string, string>()
     };
-
-    // set up name and parent, and remove those properties, so we can use the remaining as config
-    res.name = partDescription.name;
-    res.parent = (partDescription.parent !== undefined) ? partDescription.parent : topLevel;
-
     // load remaining fields into config list
     res.config = typePart.defaultConfig;
     let configDescription = Immutable.Map<string, string | number>(_.omit(partDescription, ['name', 'parent', 'type']));

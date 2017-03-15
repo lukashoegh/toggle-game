@@ -1,5 +1,5 @@
 .Container {
-    display: flex;
+    display: inline-flex;
 }
 .Container-column {
     flex-direction: column;
