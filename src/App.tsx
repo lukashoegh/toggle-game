@@ -11,13 +11,7 @@ import Action from './Action';
 import * as _ from 'lodash';
 import Logic from './Logic';
 import { Connection, toAndFromAreStrings, toConnection } from './Connection';
-
-// Component list:
-import './Parts/Toggle/Toggle';
-import './Parts/Container/Container';
-import './Parts/Button/Button';
-import './Parts/Indicator/Indicator';
-import './Parts/Trigger/Trigger';
+import './Parts/PartList';
 
 interface P {
   level: Level;

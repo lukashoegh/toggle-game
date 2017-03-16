@@ -1,0 +1,23 @@
+.Spinner-background {
+    width: 200px;
+    height: 200px;
+    border-bottom-left-radius: 50%;
+    border-top-left-radius: 50%;
+    border-top-right-radius: 50%;
+    background:
+        linear-gradient(
+            150deg,
+            rgba(0,0,0,1) 0%, 
+            rgba(200,200,200,1) 150%);
+}
+
+.Spinner-top {
+    width: 190px;
+    height: 190px;
+    top: 15px;
+    left: 15px;
+    border-bottom-left-radius: 50%;
+    border-top-left-radius: 50%;
+    border-top-right-radius: 50%;
+    background-color: white;
+}
