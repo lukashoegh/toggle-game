@@ -32,9 +32,11 @@ export default class TriggerComponent extends React.Component<P, null> {
                 <div className="Trigger-wrapper part-inside-wrapper" style={innerStyle} onClick={this.handleClick}>
                     <span className="Trigger-bevel" />
                     <span className="Trigger-shadow" />
-                    <span className="Trigger-front" />
-                    <span className="Trigger-top" />
-                    <span className="Trigger-bottom" />
+                    <span className="Trigger-clip">
+                        <span className="Trigger-front" />
+                        <span className="Trigger-top" />
+                        <span className="Trigger-bottom" />
+                    </span>
                 </div>
                 {labelElement}
             </div>
