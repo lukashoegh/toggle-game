@@ -79,6 +79,13 @@ describe('<App /> Rendering', () => {
     const wrapper = shallow(<App level={level} />);
     expect(wrapper.find(Toggle.Component).first().prop('receivePayload')).toBeDefined();
   });
+  it('Throws if two components with the same name are input', () => {
+    level.parts.push(
+      { type: 'toggle', name: 'test' },
+      { type: 'toggle', name: 'test' }
+    );
+    expect(() => shallow(<App level={level} />)).toThrow();
+  });
 });
 
 describe('<App /> Logics', () => {

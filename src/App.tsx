@@ -93,6 +93,10 @@ class App extends React.Component<P, S> {
   private initializePartState(part: PartDescription) {
     let partState = toPartState(part);
     this.lastPartName = partState.name;
+    if (typeof partState.name === 'string' && this.state.partStates.get(partState.name) !== undefined) {
+      throw new Error('Attempted to create a part with name: ' 
+        + partState.name + ', but a part with this name already exists.');
+    }
     this.state = { partStates: this.state.partStates.set(partState.name, partState) };
   }
 
