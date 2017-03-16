@@ -9,9 +9,11 @@ interface P extends DefaultProps {
     state: string;
 }
 
-export default class SpinnerComponent extends React.Component<P, null> {
+export default class SpinnerComponent extends React.Component<P, { rot: number}> {
     constructor(props: P) {
         super(props);
+        this.state = {rot: 0 };
+        this.handleClick = this.handleClick.bind(this);
     }
     render() {
         const scale = Number(this.props.size) / 20;
@@ -19,13 +21,23 @@ export default class SpinnerComponent extends React.Component<P, null> {
         const innerStyle = {
             transform: 'scale(' + scale + ')',
         };
+        const rotateStyle = {
+            transform: 'rotate(' + this.state.rot + 'deg)',
+        };
+        
         return (
-            <div className="Spinner" style={partStyle}>
-                <div className="Spinner-wrapper part-inside-wrapper" style={innerStyle}>
-                    <span className="Spinner-background" />
+            <div className="Spinner part" style={partStyle}>
+                <div className="Spinner-wrapper part-inside-wrapper" style={innerStyle} onClick={this.handleClick}>
+                    <span className="Spinner-spokes" style={rotateStyle} />
+                    <span className="Spinner-border" />
+                    <span className="Spinner-pointer" style={rotateStyle} />
                     <span className="Spinner-top" />
                 </div>
             </div>
         );
+    }
+
+    private handleClick(): void {
+        this.setState({rot: this.state.rot + 30});
     }
 }
