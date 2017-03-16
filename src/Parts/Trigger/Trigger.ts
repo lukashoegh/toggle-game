@@ -14,12 +14,12 @@ const Trigger: Part = {
     Component: TriggerComponent,
     specification: specificationFromObject({
         state: ['on', 'off'],
-        size: _.range(1, 21),
+        size: _.range(2, 21),
         label: fullTextField,
     }),
     defaultConfig: Immutable.Map<string, string>({
         state: 'off',
-        size: 20,
+        size: 4,
         label: '',
     }),
     canHaveChildren: false

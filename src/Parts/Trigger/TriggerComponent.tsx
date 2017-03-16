@@ -22,7 +22,7 @@ export default class TriggerComponent extends React.Component<P, null> {
         const innerStyle = {
             transform: 'scale(' + scale + ')',
         };
-        const labelElement = getLabel(this.props.label, scale, 400);
+        const labelElement = getLabel(this.props.label, scale);
         let classes = 'Trigger part';
         if (this.props.state === 'on') {
             classes += ' Trigger-on';

@@ -20,7 +20,7 @@ const Indicator: Part = {
     }),
     defaultConfig: Immutable.Map<string, string>({
         state: 'off',
-        size: 1,
+        size: 4,
         label: '',
         color: 'red'
     }),
