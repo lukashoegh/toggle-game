@@ -24,7 +24,9 @@ const Toggle: Part = {
         label: '',
         color: 'green',
     }),
-    canHaveChildren: false
+    canHaveChildren: false,
+    defaultInput: 'toggle',
+    defaultOutput: 'toggle',
 };
 export default Toggle;
 

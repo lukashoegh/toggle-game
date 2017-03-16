@@ -19,7 +19,9 @@ const Container: Part = {
         direction: 'column',
         background: 'none',
     }),
-    canHaveChildren: true
+    canHaveChildren: true,
+    defaultInput: 'toggle',
+    defaultOutput: 'toggle',
 };
 export default Container;
 

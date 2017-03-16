@@ -183,4 +183,41 @@ describe('<App /> Logics', () => {
     wrapper.find('.Toggle-wrapper').first().simulate('click');
     expect(wrapper.find('.Toggle').at(1).hasClass('Toggle-on')).toBeTruthy();
   });
+  it('Omitting input or output fields from connections will make them take on default values', () => {
+    let testConnection = { from: 'one', to: 'two' };
+    let registerConnectionToSpy = sinon.spy();
+    let registerConnectionFromSpy = sinon.spy();
+    stub = sinon.stub(Toggle, 'Logic', () => ({
+      registerConnectionTo: registerConnectionToSpy,
+      registerConnectionFrom: registerConnectionFromSpy,
+      hasInput: () => true,
+      hasOutput: () => true,
+    }));
+    level.parts.push(
+      { type: 'toggle', name: 'one' },
+      { type: 'toggle', name: 'two' },
+      testConnection
+    );
+    shallow(<App level={level} />);
+    expect(registerConnectionToSpy.firstCall.args[0].input).toEqual('toggle');
+    expect(registerConnectionToSpy.firstCall.args[0].output).toEqual('toggle');
+  });
+  it('Omitting the from field from a connection will make the last entered part the from part', () => {
+    let testConnection = { to: 'two' };
+    let registerConnectionToSpy = sinon.spy();
+    let registerConnectionFromSpy = sinon.spy();
+    stub = sinon.stub(Toggle, 'Logic', () => ({
+      registerConnectionTo: registerConnectionToSpy,
+      registerConnectionFrom: registerConnectionFromSpy,
+      hasInput: () => true,
+      hasOutput: () => true,
+    }));
+    level.parts.push(
+      { type: 'toggle', name: 'one' },
+      { type: 'toggle', name: 'two' },
+      testConnection,
+    );
+    shallow(<App level={level} />);
+    expect(registerConnectionToSpy.firstCall.args[0].from).toEqual('two');
+  });
 });

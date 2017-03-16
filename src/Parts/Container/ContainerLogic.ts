@@ -1,7 +1,8 @@
 import Action from '../../Action';
 import { Connection } from '../../Connection';
 import * as Immutable from 'immutable';
-export default class ContainerLogic {
+import Logic from '../../Logic';
+export default class ContainerLogic implements Logic {
 
     private inputs: Immutable.List<string>;
     private outputs: Immutable.List<string>;

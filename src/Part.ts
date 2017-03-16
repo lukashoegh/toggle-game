@@ -28,6 +28,8 @@ export interface Part {
     readonly specification: Specification;
     readonly defaultConfig: Immutable.Map<string, string>;
     readonly canHaveChildren: boolean;
+    readonly defaultOutput: string;
+    readonly defaultInput: string;
 }
 
 function isStringSet(s: Immutable.Set<string> | symbol): s is Immutable.Set<string> {

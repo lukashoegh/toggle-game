@@ -6,11 +6,11 @@ import { PartState, toPartState, topLevel, PartDescription, DefaultProps } from 
 import LevelTitle from './LevelTitle';
 import LevelFooter from './LevelFooter';
 import Container from './Parts/Container/Container';
-import { isPartDescription, isConnection } from './Level';
+import { isPartDescription, isConnectionDescription } from './Level';
 import Action from './Action';
 import * as _ from 'lodash';
 import Logic from './Logic';
-import { Connection, toAndFromAreStrings } from './Connection';
+import { Connection, toAndFromAreStrings, toConnection } from './Connection';
 
 // Component list:
 import './Parts/Toggle/Toggle';
@@ -23,11 +23,12 @@ interface P {
   level: Level;
 }
 interface S {
-  partStates: Immutable.OrderedMap<number, PartState>;
+  partStates: Immutable.OrderedMap<string | symbol, PartState>;
 }
 class App extends React.Component<P, S> {
 
-  private logics: Immutable.Map<number, Logic>;
+  private lastPartName: string | symbol;
+  private logics: Immutable.Map<string | symbol, Logic>;
   private connections: Immutable.List<Connection>;
   private actionQueue: Immutable.List<Action>;
   private processingActionQueue: boolean;
@@ -59,34 +60,40 @@ class App extends React.Component<P, S> {
     }
   }
 
-  public getConfig(partId: number, key: string): string {
-    let partState = this.state.partStates.get(partId);
+  public getConfig(name: string | symbol, key: string): string {
+    let partState = this.state.partStates.get(name);
     return partState.config.get(key);
   }
 
-  public setConfig(partId: number, key: string, value: string): void {
+  public setConfig(name: string | symbol, key: string, value: string): void {
     this.setState((prevState: S) => {
-      let partState = prevState.partStates.get(partId);
+      let partState = prevState.partStates.get(name);
       partState.config = partState.config.set(key, value);
-      return prevState.partStates.set(partId, partState);
+      return prevState.partStates.set(name, partState);
     });
   }
 
   private initializeState() {
-    this.state = { partStates: Immutable.OrderedMap<number, PartState>() };
+    this.state = { partStates: Immutable.OrderedMap<string | symbol, PartState>() };
     this.connections = Immutable.List<Connection>();
     for (let part of this.props.level.parts) {
       if (isPartDescription(part)) {
         this.initializePartState(part);
-      } else if (isConnection(part)) {
-        this.connections = this.connections.push(part);
+      } else if (isConnectionDescription(part)) {
+        let connection = toConnection(
+          part,
+          (name: string | symbol) => this.state.partStates.get(name),
+          this.lastPartName
+        );
+        this.connections = this.connections.push(connection);
       }
     }
   }
 
   private initializePartState(part: PartDescription) {
     let partState = toPartState(part);
-    this.state = { partStates: this.state.partStates.set(partState.id, partState) };
+    this.lastPartName = partState.name;
+    this.state = { partStates: this.state.partStates.set(partState.name, partState) };
   }
 
   private getPartStateByName(name: string | symbol): PartState | undefined {
@@ -96,18 +103,18 @@ class App extends React.Component<P, S> {
   }
 
   private initializeLogics() {
-    this.logics = Immutable.Map<number, Logic>();
+    this.logics = Immutable.Map<string | symbol , Logic>();
     this.state.partStates.forEach((partState: PartState) => {
       let logic = partState.type.Logic(
         (key: string) => {
-          return this.getConfig(partState.id, key);
+          return this.getConfig(partState.name, key);
         },
         (key: string, value: string) => {
-          this.setConfig(partState.id, key, value);
+          this.setConfig(partState.name, key, value);
         },
         (action: Action) => this.receiveAction(action)
       );
-      this.logics = this.logics.set(partState.id, logic);
+      this.logics = this.logics.set(partState.name, logic);
     });
   }
 
@@ -125,7 +132,7 @@ class App extends React.Component<P, S> {
       throw new Error('You attempted to create a connection from the component: ' + connection.from
         + ', which is an unknown component.');
     }
-    let logic = this.logics.get(from.id);
+    let logic = this.logics.get(from.name);
     if (!logic.hasOutput(connection.output)) {
       throw new Error('You attempted to create a connection from the output: ' + connection.output
         + ', which does not exist on the component type ' + from.type.Component.name + '.');
@@ -136,7 +143,7 @@ class App extends React.Component<P, S> {
       throw new Error('You attempted to create a connection to the component: ' + connection.to
         + ', which is an unknown component.');
     }
-    logic = this.logics.get(to.id);
+    logic = this.logics.get(to.name);
     if (!logic.hasInput(connection.input)) {
       throw new Error('You attempted to create a connection to the input: ' + connection.input
         + ', which does not exist on the component type ' + to.type.Component.name + '.');
@@ -167,8 +174,7 @@ class App extends React.Component<P, S> {
       throw new Error('Tried to process an action whose connections to field was ' 
       + toString + ' which is not allowed');
     }
-    let id = partState.id;
-    let logic = this.logics.get(id);
+    let logic = this.logics.get(partState.name);
     logic.input(action);
   }
 

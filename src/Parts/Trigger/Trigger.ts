@@ -22,7 +22,9 @@ const Trigger: Part = {
         size: 4,
         label: '',
     }),
-    canHaveChildren: false
+    canHaveChildren: false,
+    defaultInput: 'toggle',
+    defaultOutput: 'toggle',
 };
 export default Trigger;
 

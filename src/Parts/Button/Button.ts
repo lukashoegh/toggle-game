@@ -22,7 +22,9 @@ const Button: Part = {
         label: '',
         color: 'red',
     }),
-    canHaveChildren: false
+    canHaveChildren: false,
+    defaultInput: 'toggle',
+    defaultOutput: 'toggle',
 };
 export default Button;
 
