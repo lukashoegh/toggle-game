@@ -19,7 +19,7 @@ const Trigger: Part = {
     }),
     defaultConfig: Immutable.Map<string, string>({
         state: 'off',
-        size: 4,
+        size: 20,
         label: '',
     }),
     canHaveChildren: false

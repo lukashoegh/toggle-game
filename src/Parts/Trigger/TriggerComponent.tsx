@@ -30,9 +30,11 @@ export default class TriggerComponent extends React.Component<P, null> {
         return (
             <div className={classes} style={partStyle}>
                 <div className="Trigger-wrapper part-inside-wrapper" style={innerStyle} onClick={this.handleClick}>
-                    <span className="Trigger-border" />
-                    <span className="Trigger-background" />
-                    <span className="Trigger-button" />
+                    <span className="Trigger-bevel" />
+                    <span className="Trigger-shadow" />
+                    <span className="Trigger-front" />
+                    <span className="Trigger-top" />
+                    <span className="Trigger-bottom" />
                 </div>
                 {labelElement}
             </div>
@@ -40,6 +42,6 @@ export default class TriggerComponent extends React.Component<P, null> {
     }
 
     private handleClick<T>(e: T): void {
-        return;
+        this.props.receivePayload();
     }
 }

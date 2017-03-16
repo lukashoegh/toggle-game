@@ -17,6 +17,7 @@ import './Parts/Toggle/Toggle';
 import './Parts/Container/Container';
 import './Parts/Button/Button';
 import './Parts/Indicator/Indicator';
+import './Parts/Trigger/Trigger';
 
 interface P {
   level: Level;
