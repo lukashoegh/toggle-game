@@ -20,11 +20,11 @@ export default class SpinnerLogic implements Logic {
     }
     public input(action: Action) {
         if (action.isFromUser) {
-            this.toggleState();
+            this.changeRotation(action.payload);
             this.triggerOutputs();
         }
         else {
-            this.toggleState();
+            this.changeRotation(action.payload);
         }
     }
 
@@ -43,9 +43,9 @@ export default class SpinnerLogic implements Logic {
         this.connections = this.connections.push(connection);
     }
 
-    private toggleState() {
-        let state = (this.getConfig('state') === 'on') ? 'off' : 'on';
-        this.setConfig('state', state);
+    private changeRotation(payload: any) {
+        let rotation = this.getConfig('rotation') + ((payload === 'up') ? -1 : 1);
+        this.setConfig('rotation', rotation);
     }
 
     private triggerOutputs() {

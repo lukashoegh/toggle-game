@@ -1,34 +1,35 @@
 import * as React from 'react';
 import './App.css';
-import Level from './Level';
 import * as Immutable from 'immutable';
 import { PartState, toPartState, topLevel, PartDescription, DefaultProps } from './Part';
 import LevelTitle from './LevelTitle';
 import LevelFooter from './LevelFooter';
 import Container from './Parts/Container/Container';
-import { isPartDescription, isConnectionDescription } from './Level';
+import { isPartDescription, isConnectionDescription, LevelContextualDescription, 
+  LevelDescription, decontextualizeLevelDescription } from './Level';
 import Action from './Action';
 import * as _ from 'lodash';
-import Logic from './Logic';
-import { Connection, toAndFromAreStrings, toConnection } from './Connection';
+import { Connection, toConnection, ConnectionDescription } from './Connection';
 import './Parts/PartList';
+import { LogicCallbacks, Logic } from './Logic';
 
 interface P {
-  level: Level;
+  level: LevelContextualDescription;
 }
 interface S {
   partStates: Immutable.OrderedMap<string | symbol, PartState>;
 }
 class App extends React.Component<P, S> {
 
-  private lastPartName: string | symbol;
   private logics: Immutable.Map<string | symbol, Logic>;
-  private connections: Immutable.List<Connection>;
+  private connectionDescriptions: Immutable.List<ConnectionDescription>;
   private actionQueue: Immutable.List<Action>;
   private processingActionQueue: boolean;
+  private levelDescription: LevelDescription;
 
   constructor(props: P) {
     super(props);
+    this.generateLevelDescription();
     this.initializeState();
     this.initializeLogics();
     this.initializeConnections();
@@ -54,12 +55,12 @@ class App extends React.Component<P, S> {
     }
   }
 
-  public getConfig(name: string | symbol, key: string): string {
+  public getConfig(name: string | symbol, key: string): string | number {
     let partState = this.state.partStates.get(name);
     return partState.config.get(key);
   }
 
-  public setConfig(name: string | symbol, key: string, value: string): void {
+  public setConfig(name: string | symbol, key: string, value: string | number): void {
     this.setState((prevState: S) => {
       let partState = prevState.partStates.get(name);
       partState.config = partState.config.set(key, value);
@@ -67,26 +68,24 @@ class App extends React.Component<P, S> {
     });
   }
 
+  private generateLevelDescription() {
+    this.levelDescription = decontextualizeLevelDescription(this.props.level);
+  }
+
   private initializeState() {
     this.state = { partStates: Immutable.OrderedMap<string | symbol, PartState>() };
-    this.connections = Immutable.List<Connection>();
-    for (let part of this.props.level.parts) {
+    this.connectionDescriptions = Immutable.List<Connection>();
+    for (let part of this.levelDescription.parts) {
       if (isPartDescription(part)) {
         this.initializePartState(part);
       } else if (isConnectionDescription(part)) {
-        let connection = toConnection(
-          part,
-          (name: string | symbol) => this.state.partStates.get(name),
-          this.lastPartName
-        );
-        this.connections = this.connections.push(connection);
+        this.connectionDescriptions = this.connectionDescriptions.push(part);
       }
     }
   }
 
   private initializePartState(part: PartDescription) {
     let partState = toPartState(part);
-    this.lastPartName = partState.name;
     if (typeof partState.name === 'string' && this.state.partStates.get(partState.name) !== undefined) {
       throw new Error('Attempted to create a part with name: ' 
         + partState.name + ', but a part with this name already exists.');
@@ -103,32 +102,28 @@ class App extends React.Component<P, S> {
   private initializeLogics() {
     this.logics = Immutable.Map<string | symbol , Logic>();
     this.state.partStates.forEach((partState: PartState) => {
-      let logic = partState.type.Logic(
-        (key: string) => {
+      let logic = partState.type.Logic({
+        getConfig: (key: string) => {
           return this.getConfig(partState.name, key);
         },
-        (key: string, value: string) => {
+        setConfig: (key: string, value: string | number) => {
           this.setConfig(partState.name, key, value);
         },
-        (action: Action) => this.receiveAction(action)
-      );
+        receiveAction: (action: Action) => this.receiveAction(action)
+      } as LogicCallbacks);
       this.logics = this.logics.set(partState.name, logic);
     });
   }
 
   private initializeConnections() {
-    this.connections.forEach(this.initializeConnection, this);
+    this.connectionDescriptions.forEach(this.initializeConnection, this);
   }
 
-  private initializeConnection(connection: Connection) {
-    if (!toAndFromAreStrings(connection)) {
-      throw new Error('Tried to initialize a connection with a symbol as to or from, which is not allowed');
-    }
+  private initializeConnection(connectionDescription: ConnectionDescription) {
+    let connection = toConnection(connectionDescription, (name: string | symbol) => this.getPartStateByName(name));
     let from = this.getPartStateByName(connection.from);
-
     if (from === undefined) {
-      throw new Error('You attempted to create a connection from the component: ' + connection.from
-        + ', which is an unknown component.');
+      throw new Error('from was undefined, even after it was validated by toConnection, which should not happen');
     }
     let logic = this.logics.get(from.name);
     if (!logic.hasOutput(connection.output)) {
@@ -138,8 +133,7 @@ class App extends React.Component<P, S> {
     logic.registerConnectionFrom(connection);
     let to = this.getPartStateByName(connection.to);
     if (to === undefined) {
-      throw new Error('You attempted to create a connection to the component: ' + connection.to
-        + ', which is an unknown component.');
+      throw new Error('to was undefined, even after it was validated by toConnection, which should not happen');
     }
     logic = this.logics.get(to.name);
     if (!logic.hasInput(connection.input)) {
@@ -198,7 +192,7 @@ class App extends React.Component<P, S> {
   private configAndDefaultProps(partState: PartState): Object {
     let config = partState.config.toObject();
     let defaultProps: DefaultProps = {
-      receivePayload: (payload: any) => {
+      receivePayload: (payload?: any) => {
         let connection: Connection = {
           from: '',
           output: '',

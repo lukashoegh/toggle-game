@@ -1,6 +1,6 @@
-import Level from './Level';
+import { LevelContextualDescription } from './Level';
 
-class TestLevel implements Level {
+class TestLevel implements LevelContextualDescription {
     public title = 'Test Level';
     public author = 'Lukas Høgh';
     public size = 15;

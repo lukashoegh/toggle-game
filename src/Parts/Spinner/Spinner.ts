@@ -13,11 +13,11 @@ const Spinner: Part = {
     ) => new SpinnerLogic(getConfig, setConfig, receiveAction),
     Component: SpinnerComponent,
     specification: specificationFromObject({
-        state: _.range(0, 12),
+        rotation: _.range(0, 12),
         size: _.range(1, 21),
     }),
     defaultConfig: Immutable.Map<string, string>({
-        state: 0,
+        rotation: 2,
         size: 20,
     }),
     canHaveChildren: false,

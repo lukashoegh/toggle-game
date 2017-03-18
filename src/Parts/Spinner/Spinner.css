@@ -11,7 +11,7 @@
     transition-timing-function: ease-in-out;
 }
 .Spinner-pointer {
-    z-index: 3;
+    z-index: 4;
     transition: transform 0.4s;
     transition-timing-function: ease-in-out;
 }
@@ -25,7 +25,7 @@
     height: 0;
     width: 0;
     right: -8px;
-    top: 64px;
+    top: 66px;
 }
 
 .Spinner-pointer::after {
@@ -38,7 +38,7 @@
     height: 0;
     width: 0;
     right: -5px;
-    top: 68px;
+    top: 70px;
 }
 
 .Spinner-border {
@@ -60,14 +60,14 @@
 .Spinner-top {
     width: 160px;
     height: 160px;
-    z-index: 4;
+    z-index: 5;
     left: 20px;
     top: 15px;
     border-radius: 50%;
     background-color: rgb(220,220,220);
     box-shadow:
         inset 18px 18px 18px white,
-        -5px -5px 5px rgba(255,255,255,0.8),
+        -5px -5px 5px rgba(255,255,255,0.4),
         5px 5px 5px rgba(0,0,0,0.8),
         inset -5px -5px 5px rgba(0,0,0,0.5);
 }
@@ -82,8 +82,71 @@
     top: 20px;
     left: 20px;
     border-radius: 50%;
-    border: 5px solid rgba(255,0,0,0.6);
+    border: 5px solid rgba(0,128,36,0.6);
     box-shadow: 
         inset 5px 5px 5px rgba(0,0,0,0.3),
         inset -5px -5px 5px rgba(255,255,255,1);
+}
+
+.Spinner-indicators {
+    z-index: 3;
+    border-radius: 50%;
+    overflow: hidden;
+    transition: transform 0.4s;
+    transition-timing-function: ease-in-out;
+}
+.Spinner-indicators > * {
+    position: absolute;
+    display: block;
+    width: 150px;
+    height: 150px;
+    right: 0;
+    transition: opacity 0.2s;
+}
+.Spinner-up {
+    bottom: 90px;
+    background:
+        linear-gradient(
+            -45deg,
+            rgba(0, 255,50,1),
+            rgba(0, 255,50,0),
+            rgba(0, 255,50,0)
+        );
+    opacity: 0;
+}
+.Spinner-down {
+    top: 90px;
+    background:
+        linear-gradient(
+            225deg,
+            rgba(0, 255,50,1),
+            rgba(0, 255,50,0),
+            rgba(0, 255,50,0)
+        );
+    opacity: 0;
+}
+.Spinner-hover-up .Spinner-up {
+    opacity: 1;
+}
+.Spinner-hover-down .Spinner-down {
+    opacity: 1;
+}
+.Spinner-click-up {
+    height: 90px;
+    border-top-left-radius: 90px;
+    border-top-right-radius: 90px;
+    z-index: 6;
+    transform-origin: center bottom;
+    transition: transform 0.4s;
+    transition-timing-function: ease-in-out;
+}
+.Spinner-click-down {
+    height: 90px;
+    top: 100px;
+    border-bottom-left-radius: 90px;
+    border-bottom-right-radius: 90px;
+    z-index: 6;
+    transform-origin: center top;
+    transition: transform 0.4s;
+    transition-timing-function: ease-in-out;
 }

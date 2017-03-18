@@ -1,4 +1,5 @@
 import { PartState } from './Part';
+import { toString } from './Util';
 export interface Connection {
     from: string | symbol;
     output: string;
@@ -6,58 +7,42 @@ export interface Connection {
     input: string;
 }
 
-interface StringConnection extends Connection {
-    from: string;
-    output: string;
-    to: string;
-    input: string;
-}
-export function toAndFromAreStrings(connection: Connection): connection is StringConnection {
-    if (typeof connection.from === 'string') {
-        return typeof connection.to === 'string';
-    }
-    return false;
-}
-
-export interface ConnectionDescription {
+export interface ConnectionContextualDescription {
     from?: string;
     output?: string;
-    to: string;
+    to?: string;
+    input?: string;
+}
+export interface ConnectionDescription {
+    from: string | symbol;
+    output?: string;
+    to: string | symbol;
     input?: string;
 }
 
+/**
+ * Convert ConnectionDescription to Connection and validate its to and from fields
+ * @param connection
+ * @param getPartState 
+ */
 export function toConnection(
     connection: ConnectionDescription,
-    getPartState: (name: string | symbol) => PartState,
-    lastPart?: string | symbol
+    getPartState: (name: string | symbol) => PartState | undefined,
 ): Connection {
-    let from, to: string | symbol;
-    let input, output: string;
-    if (connection.from !== undefined) {
-        from = connection.from;
+    let fromPart = getPartState(connection.from);
+    let toPart = getPartState(connection.to);
+    if (fromPart === undefined) {
+        throw new Error('Attempted to connected from the part: ' + toString(connection.from)
+         + ', which was not defined');
     }
-    else if (lastPart !== undefined) {
-        from = lastPart;
+    if (toPart === undefined) {
+        throw new Error('Attempted to connected to the part: ' + toString(connection.to)
+         + ', which was not defined');
     }
-    else {
-        throw new Error('A connection without a from propperty was input before the first part, which is disallowed.');
-    }
-    if (connection.to !== undefined) {
-        to = connection.to;
-    }
-    else {
-        throw new Error('A connection without a to propperty is not allowed.');
-    }
-    let partState = getPartState(connection.to);
-    if (partState === undefined) {
-        throw new Error('Attempted to connected to the part: ' + connection.to + ', which was not yet defined');
-    }
-    output = (connection.output !== undefined) ? connection.output : getPartState(from).type.defaultOutput;
-    input = (connection.input !== undefined) ? connection.input : getPartState(to).type.defaultInput;
     return {
-        from: from,
-        output: output,
-        to: to,
-        input: input
+        from: connection.from,
+        to: connection.to,
+        output: (connection.output !== undefined) ? connection.output : fromPart.type.defaultOutput,
+        input: (connection.input !== undefined) ? connection.input : toPart.type.defaultInput,
     };
 }

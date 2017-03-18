@@ -1,15 +1,15 @@
 import * as React from 'react';
 import App from './App';
 import { shallow, mount } from 'enzyme';
-import Level from './Level';
 import LevelTitle from './LevelTitle';
 import LevelFooter from './LevelFooter';
 import Toggle from './Parts/Toggle/Toggle';
 import Container from './Parts/Container/Container';
 import EmptyLevel from './EmptyLevel';
 import * as sinon from 'sinon';
+import { LevelContextualDescription } from './Level';
 
-let level: Level;
+let level: LevelContextualDescription;
 
 describe('<App /> Rendering', () => {
 
@@ -70,9 +70,9 @@ describe('<App /> Rendering', () => {
     expect(top.children().first().children()).toHaveLength(2);
   });
   it('Passes appropriate props to children', () => {
-    level.parts.push({ type: 'toggle', size: '10' });
+    level.parts.push({ type: 'toggle', size: 10 });
     const wrapper = shallow(<App level={level} />);
-    expect(wrapper.find(Toggle.Component).first().prop('size')).toEqual('10');
+    expect(wrapper.find(Toggle.Component).first().prop('size')).toEqual(10);
   });
   it('Passes a receivePayload callback as prop', () => {
     level.parts.push({ type: 'toggle', size: '10' });

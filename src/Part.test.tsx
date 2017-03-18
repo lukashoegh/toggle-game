@@ -10,10 +10,6 @@ describe('Conversion of PartDescription to PartState', () => {
         let partState: PartState = toPartState({ type: 'toggle', name: 'testname123', parent: 'aparent' });
         expect(partState.name).toEqual('testname123');
     });
-
-    it('Not providing a name does not cause an error', () => {
-        toPartState({ type: 'toggle' });
-    });
     it('Parent is copied to the part state', () => {
         let partState: PartState = toPartState({ type: 'toggle', name: 'testname123', parent: 'aparent' });
         expect(partState.parent).toEqual('aparent');
@@ -37,24 +33,24 @@ describe('Conversion of PartDescription to PartState', () => {
         expect(_.uniq([partState1.id, partState2.id, partState3.id]).length).toBe(3);
     });
     it('If no extra fields are provided, the resulting config field matches the default config of the part', () => {
-        let partState: PartState = toPartState({ type: 'toggle' });
+        let partState: PartState = toPartState({ type: 'toggle', name: 'test' });
         expect(partState.config).toEqual(Toggle.defaultConfig);
     });
     it('Valid fields are copied to the config', () => {
-        let partState: PartState = toPartState({ type: 'toggle', state: 'on', size: 8 });
+        let partState: PartState = toPartState({ type: 'toggle', name: 'test', state: 'on', size: 8 });
         expect(partState.config.get('state')).toEqual('on');
-        expect(partState.config.get('size')).toEqual('8');
+        expect(partState.config.get('size')).toEqual(8);
     });
     it('Invalid fields result in an exception', () => {
-        let partDescription: PartDescription = { type: 'toggle', peculiarclowns: 'of course', size: 4 };
+        let partDescription: PartDescription = { type: 'toggle', name: 'test', peculiarclowns: 'of course', size: 4 };
         expect(() => toPartState(partDescription)).toThrow;
     });
     it('Invalid values result in an exception', () => {
-        let partDescription: PartDescription = { type: 'toggle', size: 'medium' };
+        let partDescription: PartDescription = { type: 'toggle', name: 'test', size: 'medium' };
         expect(() => toPartState(partDescription)).toThrow;
     });
     it('If a text field is permitted, it is coppied as expected', () => {
-        let partState: PartState = toPartState({ type: 'toggle', label: 'test string' });
+        let partState: PartState = toPartState({ type: 'toggle', name: 'test', label: 'test string' });
         expect(partState.config.get('label')).toEqual('test string');
     });
 });
