@@ -201,8 +201,7 @@ class App extends React.Component<P, S> {
         };
         let action: Action = {
           connection: connection,
-          payload: payload,
-          isFromUser: true
+          payload: payload
         };
         this.receiveAction(action);
       }

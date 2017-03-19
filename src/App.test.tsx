@@ -91,7 +91,6 @@ describe('<App /> Rendering', () => {
 describe('<App /> Logics', () => {
   let spy: sinon.SinonSpy;
   let stub: sinon.SinonStub;
-
   beforeEach(() => {
     level = new EmptyLevel();
   });
@@ -114,14 +113,14 @@ describe('<App /> Logics', () => {
     spy = sinon.spy(Toggle, 'Logic');
     level.parts.push({ type: 'toggle', state: 'on' }, { type: 'toggle' });
     shallow(<App level={level} />);
-    expect(spy.firstCall.args[0]('state')).toEqual('on');
-    expect(spy.secondCall.args[0]('state')).toEqual('off');
+    expect(spy.firstCall.args[0].getConfig('state')).toEqual('on');
+    expect(spy.secondCall.args[0].getConfig('state')).toEqual('off');
   });
   it('A logic can modify its component by doing setConfig calls', () => {
     spy = sinon.spy(Toggle, 'Logic');
     level.parts.push({ type: 'toggle' });
     const wrapper = shallow(<App level={level} />);
-    spy.firstCall.args[1]('state', 'on');
+    spy.firstCall.args[0].setConfig('state', 'on');
     expect(wrapper.find(Toggle.Component).first().prop('state')).toEqual('on');
   });
   it('Clicking a toggle triggers the corresponding logic', () => {
@@ -180,7 +179,7 @@ describe('<App /> Logics', () => {
     );
     expect(() => shallow(<App level={level} />)).toThrow();
   });
-  it('Connection two toggles, and clicking one, causes the other to toggle aswell', () => {
+  it('Connecting two toggles and clicking one, causes the other to toggle aswell', () => {
     level.parts.push(
       { type: 'toggle', name: 'one' },
       { type: 'toggle', name: 'two' },
