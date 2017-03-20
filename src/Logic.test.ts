@@ -1,7 +1,9 @@
 import * as sinon from 'sinon';
-import { GenericLogic, LogicCallbacks } from './Logic';
+import { LogicCallbacks, Logic } from './Logic';
 import { Connection } from './Connection';
 import Action from './Action';
+import Toggle from './Parts/Toggle/Toggle';
+import Button from './Parts/Button/Button';
 
 let getConfigStub = sinon.stub();
 let setConfigSpy = sinon.stub();
@@ -11,36 +13,41 @@ let callbacks: LogicCallbacks = {
   setConfig: setConfigSpy,
   receiveAction: receiveActionSpy,
 };
-let logic: GenericLogic;
+let logic: Logic;
 let connection: Connection;
 let action: Action;
 
-beforeEach(() => {
-  getConfigStub.reset();
-  getConfigStub.returns('off');
-  setConfigSpy.reset();
-  receiveActionSpy.reset();
-  logic = new GenericLogic(callbacks);
-  action = {
-    connection: {
-      from: '',
-      output: '',
-      to: '',
-      input: 'toggle',
-      id: 0,
-    }
-  };
-  connection = {
-    from: '',
-    output: 'toggled',
-    to: 'test',
-    input: '',
-    id: 0,
-  };
-});
-
 describe('GenericLogic', () => {
+
+  beforeEach(() => {
+    getConfigStub.reset();
+    getConfigStub.returns('off');
+    setConfigSpy.reset();
+    receiveActionSpy.reset();
+  });
+
   describe('Configured for toggle', () => {
+
+    beforeEach(() => {
+      logic = Toggle.Logic(callbacks);
+      action = {
+        connection: {
+          from: '',
+          output: '',
+          to: '',
+          input: 'toggle',
+          id: 0,
+        }
+      };
+      connection = {
+        from: '',
+        output: 'toggle',
+        to: 'test',
+        input: '',
+        id: 0,
+      };
+    });
+
     it('Receiving an action from user, when the state is off, sets the state to true', () => {
       action.connection.input = 'fromUser';
       logic.input(action);
@@ -106,10 +113,38 @@ describe('GenericLogic', () => {
       expect(logic.hasInput('release')).toBeFalsy();
     });
     it('hasOutput works as intended', () => {
-      expect(logic.hasOutput('toggled')).toBeTruthy();
-      expect(logic.hasOutput('turnedOn')).toBeTruthy();
-      expect(logic.hasOutput('turnedOff')).toBeTruthy();
+      expect(logic.hasOutput('toggle')).toBeTruthy();
+      expect(logic.hasOutput('turnOn')).toBeTruthy();
+      expect(logic.hasOutput('turnOff')).toBeTruthy();
       expect(logic.hasOutput('pressed')).toBeFalsy();
+    });
+  });
+  describe('Configured for button', () => {
+
+    beforeEach(() => {
+      logic = Button.Logic(callbacks);
+      action = {
+        connection: {
+          from: '',
+          output: '',
+          to: '',
+          input: 'fromUser',
+          id: 0,
+        }
+      };
+      connection = {
+        from: '',
+        output: 'press',
+        to: 'test',
+        input: '',
+        id: 0,
+      };
+    });
+
+    it('Pressing the button triggers the connection', () => {
+      logic.registerConnectionFrom(connection);
+      logic.input(action);
+      expect(receiveActionSpy.calledWith({ payload: 'on', connection: connection })).toBeTruthy();
     });
   });
 });

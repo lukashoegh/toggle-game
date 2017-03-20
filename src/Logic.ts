@@ -1,8 +1,8 @@
 import Action from './Action';
 import { Connection } from './Connection';
 import * as Immutable from 'immutable';
-import { Input, ToggleInput, ToggleTurnOnInput, ToggleTurnOffInput, ToggleFromPayloadInput } from './Input';
-import { Output, ToggleOutput } from './Output';
+import { Input } from './Input';
+import { Output } from './Output';
 
 // constructor interface is in Part.ts
 export interface Logic {
@@ -24,45 +24,35 @@ export const emptyPartialState = Immutable.Map<string, string | number>();
 
 export class GenericLogic implements Logic {
 
-  private inputs: Immutable.Map<string, Input>;
-  private outputs: Immutable.Map<string, Output>;
   private connections: Immutable.List<Connection>;
-  private userInput: string;
 
   constructor(
     private callbacks: LogicCallbacks,
+    private inputs: Immutable.Map<string, Input>,
+    private outputs: Immutable.Map<string, Output>,
+    private userInput: string = '',
+    private hideUserInput: boolean = false,
   ) {
-    this.inputs = Immutable.Map<string, Input>({
-      toggle: new ToggleInput(),
-      turnOn: new ToggleTurnOnInput(),
-      turnOff: new ToggleTurnOffInput(),
-      fromPayload: new ToggleFromPayloadInput(),
-    });
-    this.outputs = Immutable.Map<string, Output>({
-      toggled: new ToggleOutput(),
-      turnedOn: new ToggleTurnOnInput(),
-      turnedOff: new ToggleTurnOffInput(),
-    });
-    this.userInput = 'toggle';
     this.connections = Immutable.List<Connection>();
   }
+
   public input(action: Action) {
     let input = this.getInput(action.connection.input);
     let state = this.getPartialState(input.relatedConfig);
     input.receiveAction(action, state);
     let stateChange = input.stateChange;
-    if (!stateChange.isEmpty()) {
-      this.applyPartialState(stateChange);
-      if (action.connection.input === 'fromUser') {
-        this.triggerConnections(state, stateChange);
-      }
+    this.applyPartialState(stateChange);
+    if (action.connection.input === 'fromUser') {
+      this.triggerConnections(state, stateChange);
     }
   }
 
   public hasInput(name: string): boolean {
+    if (name === this.userInput && this.hideUserInput) {
+      return false;
+    }
     return this.inputs.has(name);
   }
-
   public hasOutput(name: string): boolean {
     return this.outputs.has(name);
   }

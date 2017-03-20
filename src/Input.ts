@@ -12,7 +12,7 @@ export class ToggleInput implements Input {
   public relatedConfig = Immutable.Set(['state']);
   public stateChange = emptyPartialState;
 
-  public receiveAction (action: Action, state: PartialState) {
+  public receiveAction(action: Action, state: PartialState) {
     let newState = (state.get('state') === 'on') ? 'off' : 'on';
     this.stateChange = Immutable.Map({ state: newState });
   }
@@ -22,7 +22,7 @@ export class ToggleTurnOnInput implements Input {
   public relatedConfig = Immutable.Set(['state']);
   public stateChange = emptyPartialState;
 
-  public receiveAction (action: Action, state: PartialState) {
+  public receiveAction(action: Action, state: PartialState) {
     this.stateChange = emptyPartialState;
     if (state.get('state') === 'off') {
       this.stateChange = this.stateChange.set('state', 'on');
@@ -34,7 +34,7 @@ export class ToggleTurnOffInput implements Input {
   public relatedConfig = Immutable.Set(['state']);
   public stateChange = emptyPartialState;
 
-  public receiveAction (action: Action, state: PartialState) {
+  public receiveAction(action: Action, state: PartialState) {
     this.stateChange = emptyPartialState;
     if (state.get('state') === 'on') {
       this.stateChange = this.stateChange.set('state', 'off');
@@ -47,7 +47,7 @@ export class ToggleFromPayloadInput implements Input {
   public stateChange = emptyPartialState;
   private falsyStrings = Immutable.List<string>(['off', 'false', '0']);
 
-  public receiveAction (action: Action, state: PartialState) {
+  public receiveAction(action: Action, state: PartialState) {
     let newState = '';
     switch (typeof action.payload) {
       case 'string':
@@ -66,5 +66,13 @@ export class ToggleFromPayloadInput implements Input {
     if (state.get('state') !== newState) {
       this.stateChange = this.stateChange.set('state', newState);
     }
+  }
+}
+
+export class TrivialInput implements Input {
+  public relatedConfig = Immutable.Set<string>();
+  public stateChange = emptyPartialState;
+  public receiveAction(action: Action, state: PartialState) { 
+    return;
   }
 }

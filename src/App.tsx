@@ -197,7 +197,7 @@ class App extends React.Component<P, S> {
           from: '',
           output: '',
           to: partState.name,
-          input: 'user'
+          input: 'fromUser'
         };
         let action: Action = {
           connection: connection,
