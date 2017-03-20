@@ -1,7 +1,7 @@
-import Logic from '../../Logic';
 import Action from '../../Action';
 import { Connection } from '../../Connection';
 import * as Immutable from 'immutable';
+import { Logic } from '../../Logic';
 
 export default class SpinnerLogic implements Logic {
 
@@ -10,8 +10,8 @@ export default class SpinnerLogic implements Logic {
     private connections: Immutable.List<Connection>;
 
     constructor(
-        private getConfig: (key: string) => string,
-        private setConfig: (key: string, value: string) => void,
+        private getConfig: (key: string) => string | number,
+        private setConfig: (key: string, value: string | number) => void,
         private receiveAction: (action: Action) => void) {
 
         this.inputs = Immutable.List<string>(['toggle']);
@@ -19,7 +19,7 @@ export default class SpinnerLogic implements Logic {
         this.connections = Immutable.List<Connection>();
     }
     public input(action: Action) {
-        if (action.isFromUser) {
+        if (action.connection.input === 'fromUser') {
             this.changeRotation(action.payload);
             this.triggerOutputs();
         }
@@ -44,7 +44,7 @@ export default class SpinnerLogic implements Logic {
     }
 
     private changeRotation(payload: any) {
-        let rotation = this.getConfig('rotation') + ((payload === 'up') ? -1 : 1);
+        let rotation = (<number> this.getConfig('rotation')) + ((payload === 'up') ? -1 : 1);
         this.setConfig('rotation', rotation);
     }
 
@@ -54,7 +54,6 @@ export default class SpinnerLogic implements Logic {
             this.receiveAction({
                 connection: connection,
                 payload: payload,
-                isFromUser: false
             });
         });
     }

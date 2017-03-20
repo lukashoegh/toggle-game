@@ -1,27 +1,35 @@
 import { Part, registerPart, specificationFromObject } from '../../Part';
-import ContainerLogic from './ContainerLogic';
 import ContainerComponent from './ContainerComponent';
 import * as Immutable from 'immutable';
-import Action from '../../Action';
+import { LogicCallbacks, GenericLogic } from '../../Logic';
+import { Input, ToggleInput, ToggleTurnOnInput, ToggleTurnOffInput } from '../../Input';
+import { Output } from '../../Output';
 
 const Container: Part = {
-    Logic: (
-        getConfig: (key: string) => string,
-        setConfig: (key: string, value: string) => void,
-        receiveAction: (action: Action) => void
-    ) => new ContainerLogic(getConfig, setConfig, receiveAction),
-    Component: ContainerComponent,
-    specification: specificationFromObject({
-        direction: ['row', 'column'],
-        background: ['light', 'dark', 'none'],
+  Logic: (callbacks: LogicCallbacks) => new GenericLogic(
+    callbacks,
+    Immutable.Map<string, Input>({
+      toggle: new ToggleInput(),
+      turnOn: new ToggleTurnOnInput(),
+      turnOff: new ToggleTurnOffInput(),
     }),
-    defaultConfig: Immutable.Map<string, string>({
-        direction: 'column',
-        background: 'none',
+    Immutable.Map<string, Output>({
     }),
-    canHaveChildren: true,
-    defaultInput: 'toggle',
-    defaultOutput: 'toggle',
+    '',
+    false,
+  ),
+  Component: ContainerComponent,
+  specification: specificationFromObject({
+    direction: ['row', 'column'],
+    background: ['light', 'dark', 'none'],
+  }),
+  defaultConfig: Immutable.Map<string, string>({
+    direction: 'column',
+    background: 'none',
+  }),
+  canHaveChildren: true,
+  defaultInput: 'toggle',
+  defaultOutput: 'toggle',
 };
 export default Container;
 
