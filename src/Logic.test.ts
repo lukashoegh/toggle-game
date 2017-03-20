@@ -32,7 +32,7 @@ beforeEach(() => {
   };
   connection = {
     from: '',
-    output: 'toggle',
+    output: 'toggled',
     to: 'test',
     input: '',
     id: 0,
@@ -73,19 +73,23 @@ describe('GenericLogic', () => {
     });
     it('Connection to the turnOn input', () => {
       action.connection.input = 'turnOn';
+      getConfigStub.returns('on');
       logic.input(action);
-      expect(setConfigSpy.calledWith('state', 'on')).toBeTruthy();
+      expect(setConfigSpy.called).toBeFalsy();
+      getConfigStub.returns('off');
       setConfigSpy.reset();
       logic.input(action);
       expect(setConfigSpy.calledWith('state', 'on')).toBeTruthy();
     });
     it('Connection to the turnOff input', () => {
       action.connection.input = 'turnOff';
+      getConfigStub.returns('on');
       logic.input(action);
       expect(setConfigSpy.calledWith('state', 'off')).toBeTruthy();
+      getConfigStub.returns('off');
       setConfigSpy.reset();
       logic.input(action);
-      expect(setConfigSpy.calledWith('state', 'off')).toBeTruthy();
+      expect(setConfigSpy.called).toBeFalsy();
     });
     it('Connection to the fromPayload input', () => {
       action.connection.input = 'fromPayload';
@@ -100,6 +104,12 @@ describe('GenericLogic', () => {
       expect(logic.hasInput('fromPayload')).toBeTruthy();
       expect(logic.hasInput('spin')).toBeFalsy();
       expect(logic.hasInput('release')).toBeFalsy();
+    });
+    it('hasOutput works as intended', () => {
+      expect(logic.hasOutput('toggled')).toBeTruthy();
+      expect(logic.hasOutput('turnedOn')).toBeTruthy();
+      expect(logic.hasOutput('turnedOff')).toBeTruthy();
+      expect(logic.hasOutput('pressed')).toBeFalsy();
     });
   });
 });

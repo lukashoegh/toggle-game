@@ -1,59 +1,70 @@
-import Action from './Action';
 import * as Immutable from 'immutable';
-export interface Input {
-    receiveAction: (action: Action) => void;
-    generatedPayload?: any;
-}
+import { PartialState, emptyPartialState } from './Logic';
+import Action from './Action';
 
-export interface InputCallbacks {
-  getConfig: (key: string) => string | number;
-  setConfig: (key: string, value: string) => void;
+export interface Input {
+  receiveAction: (action: Action, state: PartialState) => void;
+  relatedConfig: Immutable.Set<string>;
+  stateChange: PartialState;
 }
 
 export class ToggleInput implements Input {
-    public generatedPayload: any;
-    constructor(private callbacks: InputCallbacks) {}
-    public receiveAction(action: Action) {
-        let currentState = this.callbacks.getConfig('state');
-        this.generatedPayload = (currentState === 'on') ? 'off' : 'on';
-        this.callbacks.setConfig('state', this.generatedPayload);
-    }
+  public relatedConfig = Immutable.Set(['state']);
+  public stateChange = emptyPartialState;
+
+  public receiveAction (action: Action, state: PartialState) {
+    let newState = (state.get('state') === 'on') ? 'off' : 'on';
+    this.stateChange = Immutable.Map({ state: newState });
+  }
 }
 
 export class ToggleTurnOnInput implements Input {
-    public generatedPayload = 'on';
-    constructor(private callbacks: InputCallbacks) {}
-    public receiveAction(action: Action) {
-        this.callbacks.setConfig('state', 'on');
+  public relatedConfig = Immutable.Set(['state']);
+  public stateChange = emptyPartialState;
+
+  public receiveAction (action: Action, state: PartialState) {
+    this.stateChange = emptyPartialState;
+    if (state.get('state') === 'off') {
+      this.stateChange = this.stateChange.set('state', 'on');
     }
+  }
 }
 
 export class ToggleTurnOffInput implements Input {
-    public generatedPayload = 'off';
-    constructor(private callbacks: InputCallbacks) {}
-    public receiveAction(action: Action) {
-        this.callbacks.setConfig('state', 'off');
+  public relatedConfig = Immutable.Set(['state']);
+  public stateChange = emptyPartialState;
+
+  public receiveAction (action: Action, state: PartialState) {
+    this.stateChange = emptyPartialState;
+    if (state.get('state') === 'on') {
+      this.stateChange = this.stateChange.set('state', 'off');
     }
+  }
 }
 
 export class ToggleFromPayloadInput implements Input {
-    public generatedPayload: any;
-    private falsyStrings = Immutable.List<string>(['off', 'false', '0']);
-    constructor(private callbacks: InputCallbacks) {}
-    public receiveAction(action: Action) {
-        switch (typeof action.payload) {
-            case 'string':
-                this.generatedPayload = (this.falsyStrings.contains(action.payload)) ? 'off' : 'on';
-                break;
-            case 'number':
-                this.generatedPayload = (action.payload === 0) ? 'off' : 'on';
-                break;
-            case 'boolean':
-                this.generatedPayload = action.payload ? 'on' : 'off';
-                break;
-            default:
-                this.generatedPayload = 'on';
-        }
-        this.callbacks.setConfig('state', this.generatedPayload);
+  public relatedConfig = Immutable.Set(['state']);
+  public stateChange = emptyPartialState;
+  private falsyStrings = Immutable.List<string>(['off', 'false', '0']);
+
+  public receiveAction (action: Action, state: PartialState) {
+    let newState = '';
+    switch (typeof action.payload) {
+      case 'string':
+        newState = (this.falsyStrings.contains(action.payload)) ? 'off' : 'on';
+        break;
+      case 'number':
+        newState = (action.payload === 0) ? 'off' : 'on';
+        break;
+      case 'boolean':
+        newState = action.payload ? 'on' : 'off';
+        break;
+      default:
+        newState = 'on';
     }
+    this.stateChange = emptyPartialState;
+    if (state.get('state') !== newState) {
+      this.stateChange = this.stateChange.set('state', newState);
+    }
+  }
 }
