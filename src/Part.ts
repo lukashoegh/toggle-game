@@ -84,10 +84,9 @@ export function toPartState(partDescription: PartDescription): PartState {
         name: partDescription.name,
         type: typePart,
         parent: parent,
-        config: Immutable.Map<string, string>()
+        config: typePart.defaultConfig,
     };
     // load remaining fields into config list
-    res.config = typePart.defaultConfig;
     let configDescription = Immutable.Map<string, string | number>(_.omit(partDescription, ['name', 'parent', 'type']));
     configDescription.forEach((value: string | number, key: string) => {
         if (!typePart.specification.has(key)) {

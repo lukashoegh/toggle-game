@@ -1,6 +1,7 @@
 import Action from './Action';
 import { Connection } from './Connection';
 import * as Immutable from 'immutable';
+import { Input, ToggleInput, ToggleTurnOnInput, ToggleTurnOffInput, ToggleFromPayloadInput } from './Input';
 
 // constructor interface is in Part.ts
 export interface Logic {
@@ -19,40 +20,36 @@ export interface LogicCallbacks {
 
 export class GenericLogic implements Logic {
 
-  private inputs: Immutable.List<string>;
+  private inputs: Immutable.Map<string, Input>;
   private outputs: Immutable.List<string>;
   private connections: Immutable.List<Connection>;
   private payload: any;
+  private userInput: string;
+
   constructor(
     private callbacks: LogicCallbacks,
   ) {
-    this.inputs = Immutable.List<string>(['toggle']);
+    this.inputs = Immutable.Map<string, Input>({
+      toggle: new ToggleInput(callbacks),
+      turnOn: new ToggleTurnOnInput(callbacks),
+      turnOff: new ToggleTurnOffInput(callbacks),
+      fromPayload: new ToggleFromPayloadInput(callbacks),
+    });
     this.outputs = Immutable.List<string>(['toggle']);
     this.connections = Immutable.List<Connection>();
+    this.userInput = 'toggle';
   }
   public input(action: Action) {
-    let currentState = this.callbacks.getConfig('state');
-    switch (action.connection.input) {
-      case 'toggle':
-      case 'fromUser':
-        this.payload = (currentState === 'on') ? 'off' : 'on';
-        break;
-      case 'turnOn':
-        this.payload = 'on';
-        break;
-      default:
-        throw new Error('Unexpected input: ' + action.connection.input);
-    }
-    if (currentState !== this.payload) {
-      this.callbacks.setConfig('state', this.payload);
-    }
+    let input = this.getInput(action.connection.input);
+    input.receiveAction(action);
+    this.payload = input.generatedPayload;
     if (action.connection.input === 'fromUser') {
       this.triggerConnections();
     }
   }
 
   public hasInput(name: string): boolean {
-    return true;
+    return this.inputs.has(name);
   }
 
   public hasOutput(name: string): boolean {
@@ -73,5 +70,18 @@ export class GenericLogic implements Logic {
         connection: connection,
       });
     });
+  }
+
+  private getInput(name: string): Input {
+    if (name === 'fromUser') {
+      name = this.userInput;
+    }
+    let input = this.inputs.get(name);
+    if (input === undefined) {
+      throw new Error('Attempted to use input ' + name + ', on a logic that has no such input');
+    }
+    else {
+      return input;
+    }
   }
 }

@@ -134,7 +134,7 @@ describe('<App /> Logics', () => {
     expect(inputSpy.called).toBeTruthy();
   });
   it('Valid connections are passed to the corresponding logic', () => {
-    let testConnection = { from: 'one', output: 'toggle', to: 'two', input: 'toggle' };
+    let testConnection = { from: 'one', output: 'toggle', to: 'two', input: 'toggle', id: 1 };
     let registerConnectionToSpy = sinon.spy();
     let registerConnectionFromSpy = sinon.spy();
     stub = sinon.stub(Toggle, 'Logic', () => ({

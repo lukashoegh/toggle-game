@@ -26,7 +26,8 @@ beforeEach(() => {
       from: '',
       output: '',
       to: '',
-      input: 'toggle'
+      input: 'toggle',
+      id: 0,
     }
   };
   connection = {
@@ -34,6 +35,7 @@ beforeEach(() => {
     output: 'toggle',
     to: 'test',
     input: '',
+    id: 0,
   };
 });
 
@@ -50,7 +52,7 @@ describe('GenericLogic', () => {
       logic.input(action);
       expect(setConfigSpy.calledWith('state', 'off')).toBeTruthy();
     });
-    it('Registered connection to the toggle output are triggered when a user action is received', () => {
+    it('Connection to the toggle output is triggered when a user action is received', () => {
       logic.registerConnectionFrom(connection);
       action.connection.input = 'fromUser';
       logic.input(action);
@@ -72,11 +74,32 @@ describe('GenericLogic', () => {
     it('Connection to the turnOn input', () => {
       action.connection.input = 'turnOn';
       logic.input(action);
-      expect(setConfigSpy.calledOnce).toBeTruthy();
-      getConfigStub.returns('on');
+      expect(setConfigSpy.calledWith('state', 'on')).toBeTruthy();
       setConfigSpy.reset();
       logic.input(action);
-      expect(setConfigSpy.calledOnce).toBeFalsy();
+      expect(setConfigSpy.calledWith('state', 'on')).toBeTruthy();
+    });
+    it('Connection to the turnOff input', () => {
+      action.connection.input = 'turnOff';
+      logic.input(action);
+      expect(setConfigSpy.calledWith('state', 'off')).toBeTruthy();
+      setConfigSpy.reset();
+      logic.input(action);
+      expect(setConfigSpy.calledWith('state', 'off')).toBeTruthy();
+    });
+    it('Connection to the fromPayload input', () => {
+      action.connection.input = 'fromPayload';
+      action.payload = 'on';
+      logic.input(action);
+      expect(setConfigSpy.calledWith('state', 'on')).toBeTruthy();
+    });
+    it('hasInput works as intended', () => {
+      expect(logic.hasInput('toggle')).toBeTruthy();
+      expect(logic.hasInput('turnOn')).toBeTruthy();
+      expect(logic.hasInput('turnOff')).toBeTruthy();
+      expect(logic.hasInput('fromPayload')).toBeTruthy();
+      expect(logic.hasInput('spin')).toBeFalsy();
+      expect(logic.hasInput('release')).toBeFalsy();
     });
   });
 });

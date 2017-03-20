@@ -5,6 +5,7 @@ export interface Connection {
     output: string;
     to: string | symbol;
     input: string;
+    id?: number;
 }
 
 export interface ConnectionContextualDescription {
@@ -20,6 +21,7 @@ export interface ConnectionDescription {
     input?: string;
 }
 
+let id = 0;
 /**
  * Convert ConnectionDescription to Connection and validate its to and from fields
  * @param connection
@@ -39,10 +41,12 @@ export function toConnection(
         throw new Error('Attempted to connected to the part: ' + toString(connection.to)
          + ', which was not defined');
     }
+    id++;
     return {
         from: connection.from,
         to: connection.to,
         output: (connection.output !== undefined) ? connection.output : fromPart.type.defaultOutput,
         input: (connection.input !== undefined) ? connection.input : toPart.type.defaultInput,
+        id: id,
     };
 }
