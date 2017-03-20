@@ -34,7 +34,7 @@ const Indicator: Part = {
   }),
   canHaveChildren: false,
   defaultInput: 'toggle',
-  defaultOutput: 'toggle',
+  defaultOutput: '',
 };
 export default Indicator;
 

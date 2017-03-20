@@ -4,7 +4,7 @@ import * as _ from 'lodash';
 import TriggerComponent from './TriggerComponent';
 import { LogicCallbacks, GenericLogic } from '../../Logic';
 import { Input, ToggleTurnOnInput, ToggleTurnOffInput } from '../../Input';
-import { Output, UnconditionalOutput } from '../../Output';
+import { Output, ToggleToOnOutput } from '../../Output';
 
 const Trigger: Part = {
   Logic: (callbacks: LogicCallbacks) => new GenericLogic(
@@ -14,7 +14,7 @@ const Trigger: Part = {
         release: new ToggleTurnOffInput(),
     }),
     Immutable.Map<string, Output>({
-        press: new UnconditionalOutput(),
+        press: new ToggleToOnOutput(),
     }),
     'press',
     true,
@@ -31,8 +31,8 @@ const Trigger: Part = {
     label: '',
   }),
   canHaveChildren: false,
-  defaultInput: 'toggle',
-  defaultOutput: 'toggle',
+  defaultInput: 'release',
+  defaultOutput: 'press',
 };
 export default Trigger;
 

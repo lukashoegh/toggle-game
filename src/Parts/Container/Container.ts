@@ -29,7 +29,7 @@ const Container: Part = {
   }),
   canHaveChildren: true,
   defaultInput: 'toggle',
-  defaultOutput: 'toggle',
+  defaultOutput: '',
 };
 export default Container;
 

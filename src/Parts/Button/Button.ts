@@ -30,8 +30,8 @@ const Button: Part = {
     color: 'red',
   }),
   canHaveChildren: false,
-  defaultInput: 'toggle',
-  defaultOutput: 'toggle',
+  defaultInput: '',
+  defaultOutput: 'press',
 };
 export default Button;
 
