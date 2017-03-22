@@ -3,18 +3,18 @@ import * as Immutable from 'immutable';
 import * as _ from 'lodash';
 import TriggerComponent from './TriggerComponent';
 import { LogicCallbacks, GenericLogic } from '../../Logic';
-import { Input, ToggleTurnOnInput, ToggleTurnOffInput } from '../../Input';
-import { Output, ToggleToOnOutput } from '../../Output';
+import { Input, TurnOnInput, TurnOffInput } from '../../Input';
+import { Output, TurnOnOutput } from '../../Output';
 
 const Trigger: Part = {
   Logic: (callbacks: LogicCallbacks) => new GenericLogic(
     callbacks,
     Immutable.Map<string, Input>({
-        press: new ToggleTurnOnInput(),
-        release: new ToggleTurnOffInput(),
+      press: new TurnOnInput(),
+      release: new TurnOffInput(),
     }),
     Immutable.Map<string, Output>({
-        press: new ToggleToOnOutput(),
+      press: new TurnOnOutput(),
     }),
     'press',
     true,

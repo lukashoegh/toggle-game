@@ -3,22 +3,22 @@ import ToggleComponent from './ToggleComponent';
 import * as Immutable from 'immutable';
 import * as _ from 'lodash';
 import { LogicCallbacks, GenericLogic } from '../../Logic';
-import { Input, ToggleInput, ToggleTurnOnInput, ToggleTurnOffInput, ToggleFromPayloadInput } from '../../Input';
-import { Output, UnconditionalOutput } from '../../Output';
+import { Input, ToggleInput, TurnOnInput, TurnOffInput, FromPayloadInput } from '../../Input';
+import { Output, ToggleOutput } from '../../Output';
 
 const Toggle: Part = {
   Logic: (callbacks: LogicCallbacks) => new GenericLogic(
     callbacks,
     Immutable.Map<string, Input>({
       toggle: new ToggleInput(),
-      turnOn: new ToggleTurnOnInput(),
-      turnOff: new ToggleTurnOffInput(),
-      fromPayload: new ToggleFromPayloadInput(),
+      turnOn: new TurnOnInput(),
+      turnOff: new TurnOffInput(),
+      fromPayload: new FromPayloadInput(new TurnOnInput(), new TurnOffInput()),
     }),
     Immutable.Map<string, Output>({
-      toggle: new UnconditionalOutput(),
-      turnOn: new ToggleTurnOnInput(),
-      turnOff: new ToggleTurnOffInput(),
+      toggle: new ToggleOutput(),
+      turnOn: new TurnOnInput(),
+      turnOff: new TurnOffInput(),
     }),
     'toggle',
   ),

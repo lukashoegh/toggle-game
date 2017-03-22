@@ -183,10 +183,11 @@ class App extends React.Component<P, S> {
   private getComponent(partState: PartState): JSX.Element {
     let PartComponent = partState.type.Component;
     return (partState.type.canHaveChildren && partState.name !== undefined) ?
+      (
       <PartComponent key={partState.id} {...this.configAndDefaultProps(partState) }>
         {this.getChildren(partState.name)}
-      </PartComponent> :
-      <PartComponent key={partState.id} {...this.configAndDefaultProps(partState) } />;
+      </PartComponent>
+      ) : <PartComponent key={partState.id} {...this.configAndDefaultProps(partState) } />;
   }
 
   private configAndDefaultProps(partState: PartState): Object {

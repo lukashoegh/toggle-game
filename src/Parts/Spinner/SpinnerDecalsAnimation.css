@@ -1,0 +1,104 @@
+.Spinner-hover-up .Spinner-decal-6::before {
+    transform: rotate(-135deg);
+}
+.Spinner-hover-down .Spinner-decal-6::before {
+    transform: rotate(45deg);
+}
+.Spinner-decal-1 {
+    transform: rotate(-80deg);
+    opacity: 0;
+}
+.Spinner-hover-up .Spinner-decal-1 {
+    opacity: 0.25;
+}
+.Spinner-hover-down .Spinner-decal-1 {
+    opacity: 0;
+}
+.Spinner-decal-2 {
+    transform: rotate(-65deg);
+    opacity: 0.25;
+}
+.Spinner-hover-up .Spinner-decal-2 {
+    opacity: 0.5;
+}
+.Spinner-hover-down .Spinner-decal-2 {
+    opacity: 0;
+}
+.Spinner-decal-3 {
+    transform: rotate(-50deg);
+    opacity: 0.50;
+}
+.Spinner-hover-up .Spinner-decal-3 {
+    opacity: 0.75;
+}
+.Spinner-hover-down .Spinner-decal-3 {
+    opacity: 0.25;
+}
+.Spinner-decal-4 {
+    transform: rotate(-35deg);
+    opacity: 0.75;
+}
+.Spinner-hover-up .Spinner-decal-4 {
+    opacity: 1;
+}
+.Spinner-hover-down .Spinner-decal-4 {
+    opacity: 0.5;
+}
+.Spinner-decal-5 {
+    transform: rotate(-20deg);
+}
+.Spinner-hover-up .Spinner-decal-5 {
+    opacity: 1;
+}
+.Spinner-hover-down .Spinner-decal-5 {
+    opacity: 0.75;
+}
+.Spinner-decal-7 {
+    transform: rotate(20deg);
+}
+.Spinner-hover-up .Spinner-decal-7 {
+    opacity: 0.75;
+}
+.Spinner-hover-down .Spinner-decal-7 {
+    opacity: 1;
+}
+.Spinner-decal-8 {
+    transform: rotate(35deg);
+    opacity: 0.75;
+}
+.Spinner-hover-up .Spinner-decal-8 {
+    opacity: 0.5;
+}
+.Spinner-hover-down .Spinner-decal-8 {
+    opacity: 1;
+}
+.Spinner-decal-9 {
+    transform: rotate(50deg);
+    opacity: 0.50;
+}
+.Spinner-hover-up .Spinner-decal-9 {
+    opacity: 0.25;
+}
+.Spinner-hover-down .Spinner-decal-9 {
+    opacity: 0.75;
+}
+.Spinner-decal-10 {
+    transform: rotate(65deg);
+    opacity: 0.25;
+}
+.Spinner-hover-up .Spinner-decal-10 {
+    opacity: 0;
+}
+.Spinner-hover-down .Spinner-decal-10 {
+    opacity: 0.50;
+}
+.Spinner-decal-11 {
+    transform: rotate(80deg);
+    opacity: 0;
+}
+.Spinner-hover-up .Spinner-decal-11 {
+    opacity: 0;
+}
+.Spinner-hover-down .Spinner-decal-11 {
+    opacity: 0.25;
+}

@@ -2,7 +2,7 @@ import { Part, registerPart, specificationFromObject } from '../../Part';
 import ContainerComponent from './ContainerComponent';
 import * as Immutable from 'immutable';
 import { LogicCallbacks, GenericLogic } from '../../Logic';
-import { Input, ToggleInput, ToggleTurnOnInput, ToggleTurnOffInput } from '../../Input';
+import { Input, ToggleInput, TurnOnInput, TurnOffInput } from '../../Input';
 import { Output } from '../../Output';
 
 const Container: Part = {
@@ -10,8 +10,8 @@ const Container: Part = {
     callbacks,
     Immutable.Map<string, Input>({
       toggle: new ToggleInput(),
-      turnOn: new ToggleTurnOnInput(),
-      turnOff: new ToggleTurnOffInput(),
+      turnOn: new TurnOnInput(),
+      turnOff: new TurnOffInput(),
     }),
     Immutable.Map<string, Output>({
     }),

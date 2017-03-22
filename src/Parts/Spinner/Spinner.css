@@ -1,3 +1,13 @@
+.Spinner {
+    width: 300px;
+    height: 240px;
+}
+.Spinner-wrapper {
+    z-index: 2;
+    top: 20px;
+    left: 50px;
+}
+
 .Spinner-spokes {
     width: 176px;
     height: 176px;
@@ -5,40 +15,11 @@
     top: 12px;
     z-index: 1;
     border-radius: 50%;
-    background:linear-gradient(0deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 49%, rgba(0,0,0,1) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100% ), linear-gradient(5deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 49%, rgba(0,0,0,1) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100% ), linear-gradient(10deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 49%, rgba(0,0,0,1) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100% ), linear-gradient(15deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 49%, rgba(0,0,0,1) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100% ), linear-gradient(20deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 49%, rgba(0,0,0,1) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100% ), linear-gradient(25deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 49%, rgba(0,0,0,1) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100% ), linear-gradient(30deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 49%, rgba(0,0,0,1) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100% ), linear-gradient(35deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 49%, rgba(0,0,0,1) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100% ), linear-gradient(40deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 49%, rgba(0,0,0,1) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100% ), linear-gradient(45deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 49%, rgba(0,0,0,1) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100% ), linear-gradient(50deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 49%, rgba(0,0,0,1) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100% ), linear-gradient(55deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 49%, rgba(0,0,0,1) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100% ), linear-gradient(60deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 49%, rgba(0,0,0,1) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100% ), linear-gradient(65deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 49%, rgba(0,0,0,1) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100% ), linear-gradient(70deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 49%, rgba(0,0,0,1) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100% ), linear-gradient(75deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 49%, rgba(0,0,0,1) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100% ), linear-gradient(80deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 49%, rgba(0,0,0,1) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100% ), linear-gradient(85deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 49%, rgba(0,0,0,1) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100% ), linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 49%, rgba(0,0,0,1) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100% ), linear-gradient(95deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 49%, rgba(0,0,0,1) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100% ), linear-gradient(100deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 49%, rgba(0,0,0,1) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100% ), linear-gradient(105deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 49%, rgba(0,0,0,1) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100% ), linear-gradient(110deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 49%, rgba(0,0,0,1) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100% ), linear-gradient(115deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 49%, rgba(0,0,0,1) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100% ), linear-gradient(120deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 49%, rgba(0,0,0,1) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100% ), linear-gradient(125deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 49%, rgba(0,0,0,1) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100% ), linear-gradient(130deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 49%, rgba(0,0,0,1) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100% ), linear-gradient(135deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 49%, rgba(0,0,0,1) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100% ), linear-gradient(140deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 49%, rgba(0,0,0,1) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100% ), linear-gradient(145deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 49%, rgba(0,0,0,1) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100% ), linear-gradient(150deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 49%, rgba(0,0,0,1) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100% ), linear-gradient(155deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 49%, rgba(0,0,0,1) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100% ), linear-gradient(160deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 49%, rgba(0,0,0,1) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100% ), linear-gradient(165deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 49%, rgba(0,0,0,1) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100% ), linear-gradient(170deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 49%, rgba(0,0,0,1) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100% ), linear-gradient(175deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 49%, rgba(0,0,0,1) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100% ), linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 49%, rgba(0,0,0,1) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100% ), linear-gradient(185deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 49%, rgba(0,0,0,1) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100% ), linear-gradient(190deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 49%, rgba(0,0,0,1) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100% ), linear-gradient(195deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 49%, rgba(0,0,0,1) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100% ), linear-gradient(200deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 49%, rgba(0,0,0,1) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100% ), linear-gradient(205deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 49%, rgba(0,0,0,1) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100% ), linear-gradient(210deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 49%, rgba(0,0,0,1) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100% ), linear-gradient(215deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 49%, rgba(0,0,0,1) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100% ), linear-gradient(220deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 49%, rgba(0,0,0,1) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100% ), linear-gradient(225deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 49%, rgba(0,0,0,1) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100% ), linear-gradient(230deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 49%, rgba(0,0,0,1) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100% ), linear-gradient(235deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 49%, rgba(0,0,0,1) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100% ), linear-gradient(240deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 49%, rgba(0,0,0,1) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100% ), linear-gradient(245deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 49%, rgba(0,0,0,1) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100% ), linear-gradient(250deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 49%, rgba(0,0,0,1) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100% ), linear-gradient(255deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 49%, rgba(0,0,0,1) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100% ), linear-gradient(260deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 49%, rgba(0,0,0,1) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100% ), linear-gradient(265deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 49%, rgba(0,0,0,1) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100% ), linear-gradient(270deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 49%, rgba(0,0,0,1) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100% ), linear-gradient(275deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 49%, rgba(0,0,0,1) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100% ), linear-gradient(280deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 49%, rgba(0,0,0,1) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100% ), linear-gradient(285deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 49%, rgba(0,0,0,1) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100% ), linear-gradient(290deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 49%, rgba(0,0,0,1) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100% ), linear-gradient(295deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 49%, rgba(0,0,0,1) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100% ), linear-gradient(300deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 49%, rgba(0,0,0,1) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100% ), linear-gradient(305deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 49%, rgba(0,0,0,1) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100% ), linear-gradient(310deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 49%, rgba(0,0,0,1) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100% ), linear-gradient(315deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 49%, rgba(0,0,0,1) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100% ), linear-gradient(320deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 49%, rgba(0,0,0,1) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100% ), linear-gradient(325deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 49%, rgba(0,0,0,1) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100% ), linear-gradient(330deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 49%, rgba(0,0,0,1) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100% ), linear-gradient(335deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 49%, rgba(0,0,0,1) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100% ), linear-gradient(340deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 49%, rgba(0,0,0,1) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100% ), linear-gradient(345deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 49%, rgba(0,0,0,1) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100% ), linear-gradient(350deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 49%, rgba(0,0,0,1) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100% ), linear-gradient(355deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 49%, rgba(0,0,0,1) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0) 100% );
-    background-position: center;
     transition: transform 0.4s;
     transition-timing-function: ease-in-out;
-}
-.Spinner-pointer {
-    z-index: 4;
-    transition: transform 0.4s;
-    transition-timing-function: ease-in-out;
-}
-.Spinner-pointer::before {
-    content: "";
-    position: absolute;
-    display: block;
-    border-left: 28px solid rgba(0,0,0,0.6);
-    border-top: 24px solid transparent;
-    border-bottom: 24px solid transparent;
-    height: 0;
-    width: 0;
-    right: -8px;
-    top: 66px;
-}
-
-.Spinner-pointer::after {
-    content: "";
-    position: absolute;
-    display: block;
-    border-left: 24px solid rgba(230,230,230,1);
-    border-top: 20px solid transparent;
-    border-bottom: 20px solid transparent;
-    height: 0;
-    width: 0;
-    right: -5px;
-    top: 70px;
+    background-position: 0 -20px;
+    background-repeat: no-repeat;
+    background-size: 176px 196px;
 }
 
 .Spinner-border {
@@ -52,90 +33,80 @@
         );
     box-shadow:
         inset -5px -5px 5px black,
-        inset 5px 5px 5px white,
-        0 0 10px rgba(0,0,0,0.7);
-    opacity: 0.85;
+        inset 10px 10px 10px white;
+    opacity: 0.90;
 }
 
 .Spinner-top {
     width: 160px;
     height: 160px;
-    z-index: 5;
+    z-index: 3;
     left: 20px;
     top: 15px;
     border-radius: 50%;
     background-color: rgb(220,220,220);
     box-shadow:
-        inset 18px 18px 18px white,
-        -5px -5px 5px rgba(255,255,255,0.4),
-        5px 5px 5px rgba(0,0,0,0.8),
-        inset -5px -5px 5px rgba(0,0,0,0.5);
+        inset -1px -1px 0 rgba(0,0,0,0.8),
+        inset -18px -18px 18px rgba(255,255,255,0.7),
+        inset 2px 2px 0 rgba(255,255,255,1),
+        inset 0 0 20px rgba(0,0,0,0.2);
 }
-
-.Spinner-top::after {
-    content: "";
-    position: absolute;
-    display: block;
-    box-sizing: border-box;
-    width: 120px;
-    height: 120px;
-    top: 20px;
+.Spinner-decals {
+    width: 160px;
+    height: 160px;
+    z-index: 4;
     left: 20px;
-    border-radius: 50%;
-    border: 5px solid rgba(0,128,36,0.6);
-    box-shadow: 
-        inset 5px 5px 5px rgba(0,0,0,0.3),
-        inset -5px -5px 5px rgba(255,255,255,1);
-}
-
-.Spinner-indicators {
-    z-index: 3;
-    border-radius: 50%;
-    overflow: hidden;
+    top: 15px;
     transition: transform 0.4s;
     transition-timing-function: ease-in-out;
 }
-.Spinner-indicators > * {
+.Spinner-decals > * {
     position: absolute;
+    top: 0; left: 0;
+    width: 160px;
+    height: 160px;
     display: block;
-    width: 150px;
-    height: 150px;
-    right: 0;
-    transition: opacity 0.2s;
+    transition: opacity 0.4s;
 }
-.Spinner-up {
-    bottom: 90px;
-    background:
-        linear-gradient(
-            -45deg,
-            rgba(0, 255,50,1),
-            rgba(0, 255,50,0),
-            rgba(0, 255,50,0)
-        );
-    opacity: 0;
+.Spinner-decals > *::after {
+    content: "";
+    display: block;
+    background-color: rgb(30, 179, 79);
+    width: 8px;
+    height: 8px;
+    right: 14px;
+    top: 76px;
+    border-radius: 50%;
+    position: absolute;
+    z-index: 1;
 }
-.Spinner-down {
-    top: 90px;
-    background:
-        linear-gradient(
-            225deg,
-            rgba(0, 255,50,1),
-            rgba(0, 255,50,0),
-            rgba(0, 255,50,0)
-        );
-    opacity: 0;
+.Spinner-decal-6::after {
+    width: 20px;
+    height: 20px;
+    right: 8px;
+    top: 70px;
 }
-.Spinner-hover-up .Spinner-up {
-    opacity: 1;
+.Spinner-decal-6::before {
+    content: "";
+    display: block;
+    width: 5px;
+    height: 5px;
+    position: absolute;
+    z-index: 2;
+    right: 14px;
+    top: 76px;
+    border: 3px solid white;
+    border-width: 0 3px 3px 0;
+    border-radius: 2px;
+    transform: rotate(-45deg);
+    transition: transform 0.4s;
 }
-.Spinner-hover-down .Spinner-down {
-    opacity: 1;
-}
+
 .Spinner-click-up {
     height: 90px;
     border-top-left-radius: 90px;
     border-top-right-radius: 90px;
-    z-index: 6;
+    z-index: 20;
     transform-origin: center bottom;
     transition: transform 0.4s;
     transition-timing-function: ease-in-out;
@@ -145,8 +116,109 @@
     top: 100px;
     border-bottom-left-radius: 90px;
     border-bottom-right-radius: 90px;
-    z-index: 6;
+    z-index: 20;
     transform-origin: center top;
     transition: transform 0.4s;
     transition-timing-function: ease-in-out;
+}
+
+.Spinner-labels {
+    width: 180px;
+    height: 180px;
+    position: absolute;
+    z-index: 1;
+    top: 30px;
+    left: 60px;
+    opacity: 0.75;
+}
+
+.Spinner-labels > * {
+    position: absolute;
+    height: 16px;
+    width: 50px;
+    font-size: 13px;
+    font-family: Consolas,"Bitstream Vera Sans Mono","Courier New",Courier,monospace;
+    font-weight: 700;
+    font-synthesis: weight;
+    color: black;
+    overflow: hidden;
+}
+.Spinner-labels > * span {
+    padding: 0 3px;
+    border-radius: 5px;
+    transition: background-color 0.4s, color 0.4s;
+}
+.Spinner-label-active span {
+    background-color: rgb(30, 179, 79);
+    color: white;
+}
+.Spinner-label-empty::after {
+    content: "";
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    position: relative;
+    margin: 6px 2px 2px 0;
+    border-radius: 50%;
+    background-color: black;
+    transition: background-color 0.4s;
+}
+.Spinner-label-empty.Spinner-label-active::after {
+    background-color: rgb(30, 179, 79);
+}
+
+.Spinner-label-0 {
+    left: 65px;
+    top: -23px;
+    text-align: center;
+}
+.Spinner-label-1 {
+    top: -9px;
+    left: 143px;
+}
+.Spinner-label-2 {
+    top: 29px;
+    left: 181px;
+}
+.Spinner-label-3 {
+    top: 82px;
+    left: 195px;
+}
+.Spinner-label-4 {
+    top: 135px;
+    left: 181px;
+}
+.Spinner-label-5 {
+    top: 173px;
+    left: 143px;
+}
+.Spinner-label-6 {
+    left: 65px;
+    top: 187px;
+    text-align: center;
+}
+.Spinner-label-7 {
+    top: 173px;
+    right: 143px;
+    text-align: right;
+}
+.Spinner-label-8 {
+    top: 135px;
+    right: 181px;
+    text-align: right;
+}
+.Spinner-label-9 {
+    top: 82px;
+    right: 195px;
+    text-align: right;
+}
+.Spinner-label-10 {
+    top: 29px;
+    right: 181px;
+    text-align: right;
+}
+.Spinner-label-11 {
+    top: -9px;
+    right: 143px;
+    text-align: right;
 }

@@ -144,7 +144,7 @@ describe('GenericLogic', () => {
     it('Pressing the button triggers the connection', () => {
       logic.registerConnectionFrom(connection);
       logic.input(action);
-      expect(receiveActionSpy.calledWith({ payload: 'on', connection: connection })).toBeTruthy();
+      expect(receiveActionSpy.calledWith({ payload: 'press', connection: connection })).toBeTruthy();
     });
   });
 });

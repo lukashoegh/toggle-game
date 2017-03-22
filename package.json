@@ -24,9 +24,10 @@
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-standard": "^2.1.1",
     "react-addons-test-utils": "^15.4.2",
-    "react-scripts-ts": "1.1.6",
+    "react-scripts-ts": "1.1.8",
     "react-test-renderer": "^15.4.2",
-    "sinon": "^1.17.7"
+    "sinon": "^1.17.7",
+    "tslint-eslint-rules": "^3.5.1"
   },
   "scripts": {
     "start": "react-scripts-ts start",

@@ -3,7 +3,7 @@ import * as Immutable from 'immutable';
 import * as _ from 'lodash';
 import IndicatorComponent from './IndicatorComponent';
 import { LogicCallbacks, GenericLogic } from '../../Logic';
-import { Input, ToggleInput, ToggleTurnOffInput, ToggleTurnOnInput } from '../../Input';
+import { Input, ToggleInput, TurnOffInput, TurnOnInput } from '../../Input';
 import { Output } from '../../Output';
 
 const Indicator: Part = {
@@ -11,8 +11,8 @@ const Indicator: Part = {
     callbacks,
     Immutable.Map<string, Input>({
       toggle: new ToggleInput(),
-      turnOn: new ToggleTurnOnInput(),
-      turnOff: new ToggleTurnOffInput(),
+      turnOn: new TurnOnInput(),
+      turnOff: new TurnOffInput(),
     }),
     Immutable.Map<string, Output>({
     }),

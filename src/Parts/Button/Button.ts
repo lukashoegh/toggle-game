@@ -13,7 +13,7 @@ const Button: Part = {
       press: new TrivialInput(),
     }),
     Immutable.Map<string, Output>({
-      press: new UnconditionalOutput(),
+      press: new UnconditionalOutput('press'),
     }),
     'press',
     true,
