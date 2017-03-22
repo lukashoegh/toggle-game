@@ -70,13 +70,13 @@
 
 /* Green */
 .Indicator-green .Indicator-background {
-    background-color: rgb(0,75,20);
+    background-color: rgb(0,75,25);
 }
 .Indicator-green .Indicator-light {
     background:
-        radial-gradient(circle at center, rgba(255,225,180,0.8) 0%, rgba(0,255,0,1) 50%, rgba(0,255,0,1) 100%);
+        radial-gradient(circle at center, rgba(200,225,218,1) 0%, rgba(0,255,85,1) 50%, rgba(0,255,85,1) 75%, rgba(0,158,53,1) 100%);
     box-shadow:
-        0 0 90px 2px green,
+        0 0 90px 2px rgba(0,255,85,1),
         inset 5px 5px 20px rgba(0,0,0,0.3);
 }
 
@@ -86,8 +86,8 @@
 }
 .Indicator-blue .Indicator-light {
     background:
-        radial-gradient(circle at center, rgba(255,225,255,0.8) 0%, rgba(40,80,255,1) 50%, rgba(40,80,255,1) 100%);
+        radial-gradient(circle at center, rgba(200,200,255,1) 0%, rgba(11,109,244,1) 50%, rgba(11,109,244,1) 75%, rgba(0,75,117,1) 100%);
     box-shadow:
-        0 0 90px 2px blue,
+        0 0 90px 2px rgb(11,109,244),
         inset 5px 5px 20px rgba(0,0,0,0.3);
 }

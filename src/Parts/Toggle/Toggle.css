@@ -62,15 +62,15 @@
 }
 /* Green */
 .Toggle-on.Toggle-green .Toggle-background {
-    background-color: rgb(65,195,102);
+    background-color: rgb(65,195,108);
 }
 .Toggle-green .Toggle-button::after {
-    border-color: rgba(0,128,36,0.6);
+    border-color: rgba(0,128,43,0.6);
 }
 /* Blue */
 .Toggle-on.Toggle-blue .Toggle-background {
-    background-color: rgb(74,85,205);
+    background-color: rgb(6,62,139);
 }
 .Toggle-blue .Toggle-button::after {
-    border-color: rgba(20,45,128,0.6);
+    border-color: rgba(9,87,196,0.6);
 }
