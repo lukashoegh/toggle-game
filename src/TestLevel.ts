@@ -5,24 +5,22 @@ class TestLevel implements LevelContextualDescription {
   public author = 'Lukas Høgh';
   public size = 15;
   public parts = [
-    /*{
+    {
       type: 'trigger',
       size: 10,
       name: 't'
     },
     {
       input: 'turnOn'
-    },*/
+    },
     {
       type: 'indicator',
       size: 20,
       name: 'i',
-      color: 'yellow'
     },
     {
       type: 'button',
       size: 20,
-      color: 'yellow'
     },
     {
       to: 'i',
@@ -31,13 +29,15 @@ class TestLevel implements LevelContextualDescription {
     {
       type: 'toggle',
       size: 10,
-      color: 'yellow'
+    },
+    {
+      to: 't'
     },
     {
       to: 'i',
       input: 'toggle'
-    }
-    /*{
+    },
+    {
       type: 'spinner',
       label0: 'abc',
       label1: 'heyh',
@@ -51,8 +51,7 @@ class TestLevel implements LevelContextualDescription {
       label9: 'net',
       label10: '',
       label11: 'dc',
-      parent: 'big'
-    },*/
+    },
   ];
 }
 

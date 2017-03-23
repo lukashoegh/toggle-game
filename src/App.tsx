@@ -121,24 +121,18 @@ class App extends React.Component<P, S> {
 
   private initializeConnection(connectionDescription: ConnectionDescription) {
     let connection = toConnection(connectionDescription, (name: string | symbol) => this.getPartStateByName(name));
-    let from = this.getPartStateByName(connection.from);
-    if (from === undefined) {
-      throw new Error('from was undefined, even after it was validated by toConnection, which should not happen');
-    }
+    let from = this.getPartStateByName(connection.from) as PartState;
     let logic = this.logics.get(from.name);
     if (!logic.hasOutput(connection.output)) {
       throw new Error('You attempted to create a connection from the output: ' + connection.output
-        + ', which does not exist on the component type ' + from.type.Component.name + '.');
+        + ', which does not exist on the part ' + (typeof from.type) + '.');
     }
     logic.registerConnectionFrom(connection);
-    let to = this.getPartStateByName(connection.to);
-    if (to === undefined) {
-      throw new Error('to was undefined, even after it was validated by toConnection, which should not happen');
-    }
+    let to = this.getPartStateByName(connection.to) as PartState;
     logic = this.logics.get(to.name);
     if (!logic.hasInput(connection.input)) {
       throw new Error('You attempted to create a connection to the input: ' + connection.input
-        + ', which does not exist on the component type ' + to.type.Component.name + '.');
+        + ', which does not exist on the part ' + (typeof to.type) + '.');
     }
     logic.registerConnectionTo(connection);
   }
