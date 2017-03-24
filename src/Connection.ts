@@ -37,7 +37,7 @@ export function toConnection(
     throw new Error('Attempted to connected from the part: ' + toString(connection.from)
       + ', which was not defined');
   }
-  if (fromPart.type.defaultInput === '') {
+  if (fromPart.type.defaultOutput === '') {
     throw new Error('Attempted to connected from the part: ' + toString(connection.to)
       + ', which has no outputs');
   }

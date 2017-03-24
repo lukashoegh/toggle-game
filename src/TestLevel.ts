@@ -5,7 +5,7 @@ class TestLevel implements LevelContextualDescription {
   public author = 'Lukas Høgh';
   public size = 15;
   public parts = [
-    {
+    /*{
       type: 'trigger',
       size: 10,
       name: 't'
@@ -36,7 +36,7 @@ class TestLevel implements LevelContextualDescription {
     {
       to: 'i',
       input: 'toggle'
-    },
+    },*/
     {
       type: 'spinner',
       label0: 'abc',
@@ -52,6 +52,22 @@ class TestLevel implements LevelContextualDescription {
       label10: '',
       label11: 'dc',
     },
+    {
+      type: 'trigger',
+      size: 10
+    },
+    {
+      type: 'button',
+      name: 'b'
+    },
+    {
+      from: 'b',
+      to: 'i'
+    },
+    {
+      type: 'indicator',
+      name: 'i'
+    }
   ];
 }
 
