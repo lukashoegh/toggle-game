@@ -37,9 +37,17 @@ export function toConnection(
     throw new Error('Attempted to connected from the part: ' + toString(connection.from)
       + ', which was not defined');
   }
+  if (fromPart.type.defaultInput === '') {
+    throw new Error('Attempted to connected from the part: ' + toString(connection.to)
+      + ', which has no outputs');
+  }
   if (toPart === undefined) {
     throw new Error('Attempted to connected to the part: ' + toString(connection.to)
       + ', which was not defined');
+  }
+  if (toPart.type.defaultInput === '') {
+    throw new Error('Attempted to connected to the part: ' + toString(connection.to)
+      + ', which has no inputs');
   }
   id++;
   return {
